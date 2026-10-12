@@ -2,186 +2,610 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cafetería - Fidelización</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Tarjeta de sellos</title>
+
     <!-- Configuración para App Instalable (PWA) -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#3b2818">
+    <meta name="theme-color" content="#16353a">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&display=swap" rel="stylesheet">
 
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            text-align: center; 
-            background-color: #f7f3f0; 
-            padding: 20px; 
+        :root {
+            --petroleo: #16353a;
+            --petroleo-2: #1f474d;
+            --laton: #c4a06a;
+            --laton-texto: #7a5c2b;
+            --concreto: #e6e8e4;
+            --lino: #f7f7f4;
+            --texto-suave: #52666a;
+            --error: #9b2c2c;
+        }
+
+        * { box-sizing: border-box; }
+
+        html { -webkit-text-size-adjust: 100%; }
+
+        body {
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 90vh;
-        }
-        .tarjeta-container, .login-container { 
-            background: white; 
-            border-radius: 20px; 
-            padding: 30px 20px; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08); 
-            width: 100%;
-            max-width: 350px; 
-        }
-        #pantallaTarjeta { display: none; }
-        h2 { color: #3b2818; margin-top: 0; }
-        p { color: #666; font-size: 16px; margin-bottom: 25px;}
-        input {
-            width: 90%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 2px solid #e9e9e9;
-            border-radius: 10px;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: var(--concreto);
+            color: var(--petroleo);
+            font-family: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             font-size: 16px;
-            box-sizing: border-box;
-            outline: none;
+            line-height: 1.45;
+            overflow-x: hidden;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
         }
-        input:focus { border-color: #8c6239; }
-        #inputNombre { display: none; }
 
-        .grid-sellos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 30px 0; }
-        .sello { width: 65px; height: 65px; border-radius: 50%; background-color: #e9e9e9; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto; color: #aaa; transition: all 0.3s ease; }
-        .sello.activo { background-color: #8c6239; color: white; box-shadow: 0 4px 8px rgba(140, 98, 57, 0.4); }
+        [hidden] { display: none !important; }
 
-        button { background-color: #3b2818; color: white; border: none; padding: 15px 20px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; margin-top: 15px;}
-        button:active { transform: scale(0.98); }
-        button:disabled { background-color: #ccc; cursor: not-allowed; }
-        
-        /* Estilo para el botón de instalar */
-        #btnInstalar {
-            display: none; 
-            background-color: #28a745; /* Verde llamativo */
-            margin-bottom: 15px;
+        :focus-visible { outline: 2px solid var(--petroleo); outline-offset: 3px; }
+
+        .pantalla {
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+            padding: 0 24px 40px;
+        }
+
+        /* ---------- INGRESO ---------- */
+        #pantallaLogin { padding-top: calc(32px + env(safe-area-inset-top, 0px)); }
+
+        .marca {
+            font-weight: 600;
+            font-size: 17px;
+            letter-spacing: -0.01em;
+        }
+
+        .login-titulo {
+            font-size: 40px;
+            line-height: 1.02;
+            font-weight: 600;
+            font-stretch: 88%;
+            letter-spacing: -0.025em;
+            margin: 72px 0 12px;
+        }
+
+        .login-texto {
+            margin: 0 0 32px;
+            color: var(--texto-suave);
+            max-width: 30ch;
+        }
+
+        .campo { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+        .campo label { font-size: 14px; font-weight: 500; }
+
+        input[type="tel"], input[type="text"], input[type="password"] {
+            width: 100%;
+            height: 54px;
+            padding: 0 16px;
+            border: 1px solid #b9c0bd;
+            border-radius: 14px;
+            background: var(--lino);
+            color: var(--petroleo);
+            font: inherit;
+            font-size: 17px;
+        }
+        input::placeholder { color: #8a9799; }
+        input:focus { outline: none; border-color: var(--petroleo); box-shadow: 0 0 0 3px rgba(22, 53, 58, 0.16); }
+
+        .aviso { margin: -4px 0 16px; font-size: 14px; color: var(--laton-texto); }
+        .aviso:empty { display: none; }
+        .aviso.error { color: var(--error); }
+
+        .btn {
+            display: block;
+            width: 100%;
+            height: 54px;
+            border: 0;
+            border-radius: 14px;
+            background: var(--petroleo);
+            color: var(--lino);
+            font: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s ease, background-color 0.15s ease;
+        }
+        .btn:hover { background: var(--petroleo-2); }
+        .btn:active { transform: scale(0.985); }
+        .btn:disabled { background: #a9b3b1; cursor: not-allowed; transform: none; }
+
+        .btn-borde {
+            background: transparent;
+            color: var(--petroleo);
+            box-shadow: inset 0 0 0 1.5px var(--petroleo);
+        }
+        .btn-borde:hover { background: rgba(22, 53, 58, 0.06); }
+        .btn-borde:disabled { background: transparent; color: #8a9799; box-shadow: inset 0 0 0 1.5px #b9c0bd; }
+
+        .btn-texto {
+            background: none;
+            border: 0;
+            padding: 10px 12px;
+            color: var(--petroleo);
+            font: inherit;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            cursor: pointer;
+        }
+
+        /* Botón de instalar: discreto, solo aparece cuando el navegador lo permite */
+        #btnInstalar { margin-top: 12px; }
+
+        /* ---------- TARJETA (credencial) ---------- */
+        #pantallaTarjeta { overflow: visible; }
+
+        .colgante {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform-origin: 50% 0;
+        }
+        .colgante.entra { animation: colgar 1.9s cubic-bezier(0.3, 0.6, 0.4, 1) 1; }
+
+        @keyframes colgar {
+            0%   { transform: rotate(-3.2deg); }
+            22%  { transform: rotate(2.4deg); }
+            46%  { transform: rotate(-1.4deg); }
+            70%  { transform: rotate(0.7deg); }
+            100% { transform: rotate(0); }
+        }
+
+        .correa {
+            position: relative;
+            width: 30px;
+            height: 64px;
+            background: var(--petroleo);
+        }
+        .correa::before {
+            content: "";
+            position: absolute;
+            inset: 0 4px;
+            border-inline: 1px dashed rgba(196, 160, 106, 0.85);
+        }
+
+        .herraje {
+            position: relative;
+            z-index: 2;
+            width: 40px;
+            height: 22px;
+            margin-bottom: -9px;
+            border-radius: 6px 6px 11px 11px;
+            background: var(--laton);
+            box-shadow: 0 2px 0 rgba(22, 53, 58, 0.25);
+        }
+
+        .credencial {
+            position: relative;
+            width: 100%;
+            padding: 52px 24px 26px;
+            border-radius: 26px;
+            background: var(--petroleo);
+            color: var(--lino);
+            box-shadow: 0 22px 32px -14px rgba(22, 53, 58, 0.55);
+        }
+        .credencial::before {
+            content: "";
+            position: absolute;
+            inset: 10px;
+            border: 1px solid rgba(196, 160, 106, 0.3);
+            border-radius: 18px;
+            pointer-events: none;
+        }
+        .ranura {
+            position: absolute;
+            top: 22px;
+            left: 50%;
+            width: 56px;
+            height: 9px;
+            margin-left: -28px;
+            border-radius: 5px;
+            background: var(--concreto);
+            box-shadow: inset 0 1px 2px rgba(22, 53, 58, 0.45);
+        }
+
+        .credencial .marca { color: var(--laton); font-size: 15px; }
+        .nombre {
+            margin: 6px 0 26px;
+            font-size: 28px;
+            line-height: 1.1;
+            font-weight: 600;
+            font-stretch: 90%;
+            letter-spacing: -0.02em;
+            overflow-wrap: anywhere;
+        }
+
+        .grid-sellos {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            justify-items: center;
+        }
+
+        .sello {
+            position: relative;
+            width: 100%;
+            max-width: 76px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: var(--petroleo-2);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
+            color: #a9bcbd;
+            font-size: 20px;
+            font-weight: 500;
+            font-stretch: 85%;
+        }
+        /* El último sello es el premio: lleva un anillo de latón */
+        .sello.premio { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35), 0 0 0 1.5px var(--laton); }
+
+        .sello.activo {
+            background: var(--laton);
+            color: var(--petroleo);
+            box-shadow: 0 3px 0 #8f6f3a, inset 0 0 0 5px var(--laton), inset 0 0 0 6px rgba(22, 53, 58, 0.22);
+        }
+        .sello svg { width: 54%; height: 54%; }
+
+        .sello.nuevo { animation: sellar 0.7s cubic-bezier(0.2, 0.8, 0.3, 1) 1; }
+        .sello.nuevo::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid var(--laton);
+            animation: onda 0.9s ease-out 0.25s 1 both;
+        }
+        @keyframes sellar {
+            0%   { transform: scale(1.8) rotate(-16deg); opacity: 0; }
+            55%  { transform: scale(0.9) rotate(3deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0); }
+        }
+        @keyframes onda {
+            from { transform: scale(1); opacity: 0.9; }
+            to   { transform: scale(1.7); opacity: 0; }
+        }
+
+        .progreso { margin-top: 26px; }
+        .progreso .linea1 { margin: 0; font-size: 18px; font-weight: 600; }
+        .progreso .linea2 { margin: 2px 0 0; font-size: 14px; color: rgba(247, 247, 244, 0.75); }
+
+        .zona-personal { margin-top: 32px; }
+        .nota { margin: 8px 0 0; font-size: 13px; color: var(--texto-suave); text-align: center; }
+        .salir { display: block; margin: 20px auto 0; }
+
+        /* ---------- DIÁLOGOS ---------- */
+        dialog {
+            width: min(92vw, 340px);
+            padding: 24px;
+            border: 0;
+            border-radius: 20px;
+            background: var(--lino);
+            color: var(--petroleo);
+            font-family: inherit;
+        }
+        dialog::backdrop { background: rgba(22, 53, 58, 0.6); }
+        dialog h3 { margin: 0 0 6px; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+        dialog p { margin: 0 0 18px; color: var(--texto-suave); }
+        .acciones { display: grid; grid-template-columns: 1fr 1.3fr; gap: 10px; margin-top: 18px; }
+        .acciones .btn { height: 48px; }
+        #pinInput { letter-spacing: 0.4em; text-align: center; font-size: 22px; }
+        .error-pin { margin: 8px 0 0 !important; font-size: 14px; color: var(--error) !important; }
+        .error-pin:empty { display: none; }
+
+        /* ---------- AVISO FLOTANTE ---------- */
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+            transform: translate(-50%, 24px);
+            max-width: calc(100vw - 32px);
+            padding: 12px 18px;
+            border-radius: 12px;
+            background: var(--petroleo);
+            color: var(--lino);
+            font-size: 15px;
+            font-weight: 500;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 10;
+        }
+        .toast.visible { opacity: 1; transform: translate(-50%, 0); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .colgante.entra, .sello.nuevo, .sello.nuevo::after { animation: none; }
+            .btn, .toast { transition: none; }
         }
     </style>
 </head>
 <body>
 
     <!-- PANTALLA DE INGRESO -->
-    <div class="login-container" id="pantallaLogin">
-        <h2>Bienvenido</h2>
-        <p>Ingresa tu número para ver tus sellos.</p>
-        
-        <!-- Botón de instalación (Solo visible en Android cuando esté disponible) -->
-        <button id="btnInstalar">📲 Instalar Aplicación</button>
-        
-        <input type="tel" id="inputTelefono" placeholder="Número de celular" required>
-        <input type="text" id="inputNombre" placeholder="Tu Nombre (Eres nuevo)">
-        
-        <button id="btnIngresar" onclick="iniciarSesion()">Ingresar</button>
-    </div>
+    <main class="pantalla" id="pantallaLogin">
+        <div class="marca" data-marca>Tu Coworking</div>
 
-    <!-- PANTALLA DE LA TARJETA VIP (Oculta al inicio) -->
-    <div class="tarjeta-container" id="pantallaTarjeta">
-        <h2>☕ Tu Tarjeta VIP</h2>
-        <p>Cliente: <strong id="nombreCliente">Cargando...</strong></p>
-        <p>Llevas <span id="contadorTexto">0</span> de 9 cafés.</p>
+        <h1 class="login-titulo">Cada compra suma.</h1>
+        <p class="login-texto">Ingresa tu celular y mira cuántos sellos llevas.</p>
 
-        <div class="grid-sellos" id="contenedorSellos"></div>
+        <form id="formLogin" novalidate>
+            <div class="campo">
+                <label for="inputTelefono">Celular</label>
+                <input type="tel" id="inputTelefono" placeholder="300 123 4567" autocomplete="tel" inputmode="tel" required>
+            </div>
 
-        <button onclick="sumarSello()">+ Sumar Sello (Solo Barista)</button>
-        <button onclick="cerrarSesion()" style="background-color: transparent; color: #8c6239; border: 2px solid #8c6239;">Salir</button>
-    </div>
+            <div class="campo" id="campoNombre" hidden>
+                <label for="inputNombre">Tu nombre</label>
+                <input type="text" id="inputNombre" placeholder="Nombre y apellido" autocomplete="name">
+            </div>
+
+            <p class="aviso" id="avisoLogin" role="status" aria-live="polite"></p>
+
+            <button type="submit" class="btn" id="btnIngresar">Ver mi tarjeta</button>
+        </form>
+
+        <!-- Botón de instalación (solo visible cuando el navegador lo permite) -->
+        <button type="button" class="btn btn-borde" id="btnInstalar" hidden>Instalar en mi celular</button>
+    </main>
+
+    <!-- PANTALLA DE LA TARJETA (oculta al inicio) -->
+    <main class="pantalla" id="pantallaTarjeta" hidden>
+        <div class="colgante" id="colgante">
+            <div class="correa" aria-hidden="true"></div>
+            <div class="herraje" aria-hidden="true"></div>
+
+            <section class="credencial" aria-label="Tu tarjeta de sellos">
+                <div class="ranura" aria-hidden="true"></div>
+
+                <div class="marca" data-marca>Tu Coworking</div>
+                <h1 class="nombre" id="nombreCliente">Cargando…</h1>
+
+                <ul class="grid-sellos" id="contenedorSellos" aria-label="Sellos de tu tarjeta"></ul>
+
+                <div class="progreso" aria-live="polite">
+                    <p class="linea1">Llevas <span id="contadorTexto">0</span> de 9 sellos</p>
+                    <p class="linea2" id="mensajeFalta"></p>
+                </div>
+            </section>
+        </div>
+
+        <div class="zona-personal">
+            <button type="button" class="btn btn-borde" id="btnSumar" onclick="abrirPin()">Sumar sello</button>
+            <p class="nota">Solo para el personal del espacio.</p>
+        </div>
+
+        <button type="button" class="btn-texto salir" onclick="cerrarSesion()">Salir</button>
+    </main>
+
+    <!-- DIÁLOGO: PIN DEL PERSONAL -->
+    <dialog id="dlgPin" aria-labelledby="tituloPin">
+        <form id="formPin" novalidate>
+            <h3 id="tituloPin">Sumar sello</h3>
+            <p>Ingresa el PIN del personal para validar la compra.</p>
+            <label for="pinInput" style="display:none">PIN</label>
+            <input type="password" id="pinInput" inputmode="numeric" autocomplete="off" maxlength="6" aria-describedby="errorPin">
+            <p class="error-pin" id="errorPin" role="alert"></p>
+            <div class="acciones">
+                <button type="button" class="btn btn-borde" id="pinCancelar">Cancelar</button>
+                <button type="submit" class="btn">Sumar sello</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- DIÁLOGO: TARJETA COMPLETA -->
+    <dialog id="dlgPremio" aria-labelledby="tituloPremio">
+        <h3 id="tituloPremio">Tarjeta completa</h3>
+        <p>Entrega el premio. La tarjeta vuelve a empezar desde cero.</p>
+        <button type="button" class="btn" id="premioListo">Listo</button>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <script>
         // --- AQUÍ DEBES PEGAR TU URL DE GOOGLE SCRIPT ---
-        const API_URL = "https://script.google.com/macros/s/AKfycbzN3QXKnaYLHyvl96b4A1ONO6sFT29F9eUfLIWfxqQY3hpo_pN4pLrYf1yQVJGKSIQ5/exec"; 
-        
-        let telefonoActual = ""; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbzN3QXKnaYLHyvl96b4A1ONO6sFT29F9eUfLIWfxqQY3hpo_pN4pLrYf1yQVJGKSIQ5/exec";
+
+        // --- AJUSTES DEL ESPACIO ---
+        const CONFIG = {
+            nombreEspacio: "Tu Coworking",   // Cambia por el nombre real del coworking
+            pinPersonal: "1234"
+        };
+
         const totalSellos = 9;
+        let telefonoActual = "";
+        let sellosActuales = 0;
+        let nuevoUsuario = false;
+
+        const $ = (id) => document.getElementById(id);
+
+        const ICONO_SELLO = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8.2 12.4l2.7 2.7 5-5.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+        // Nombre del espacio en pantalla y en el título
+        document.querySelectorAll('[data-marca]').forEach(el => el.textContent = CONFIG.nombreEspacio);
+        document.title = "Tarjeta de sellos - " + CONFIG.nombreEspacio;
+
+        // --- Utilidades de interfaz ---
+        let temporizadorToast;
+        function mostrarToast(mensaje) {
+            const t = $('toast');
+            t.textContent = mensaje;
+            t.classList.add('visible');
+            clearTimeout(temporizadorToast);
+            temporizadorToast = setTimeout(() => t.classList.remove('visible'), 2600);
+        }
+
+        function avisoLogin(mensaje, esError = false) {
+            const a = $('avisoLogin');
+            a.textContent = mensaje;
+            a.classList.toggle('error', esError);
+        }
+
+        function etiquetaIngreso() {
+            return nuevoUsuario ? "Crear mi tarjeta" : "Ver mi tarjeta";
+        }
 
         // Función de Ingreso / Registro
-        async function iniciarSesion() {
-            const telInput = document.getElementById('inputTelefono').value;
-            const nomInput = document.getElementById('inputNombre').value;
-            const btn = document.getElementById('btnIngresar');
+        async function iniciarSesion(e) {
+            e.preventDefault();
+            const telInput = $('inputTelefono').value.trim();
+            const nomInput = $('inputNombre').value.trim();
+            const btn = $('btnIngresar');
+
+            avisoLogin('');
 
             if (telInput.length < 7) {
-                alert("Ingresa un número válido.");
+                avisoLogin("Escribe tu número de celular completo.", true);
+                $('inputTelefono').focus();
                 return;
             }
 
             btn.disabled = true;
-            btn.innerText = "Verificando...";
+            btn.textContent = "Verificando…";
 
             try {
-                let url = `${API_URL}?telefono=${telInput}&accion=login`;
-                if(nomInput) url += `&nombre=${encodeURIComponent(nomInput)}`;
+                let url = `${API_URL}?telefono=${encodeURIComponent(telInput)}&accion=login`;
+                if (nomInput) url += `&nombre=${encodeURIComponent(nomInput)}`;
 
                 let respuesta = await fetch(url);
                 let datos = await respuesta.json();
-                
-                if(datos.status === "success") {
+
+                if (datos.status === "success") {
                     telefonoActual = telInput;
-                    document.getElementById('nombreCliente').innerText = datos.nombre;
+                    $('nombreCliente').textContent = datos.nombre;
                     renderizarTarjeta(datos.sellos);
-                    
-                    document.getElementById('pantallaLogin').style.display = 'none';
-                    document.getElementById('pantallaTarjeta').style.display = 'block';
+
+                    $('pantallaLogin').hidden = true;
+                    $('pantallaTarjeta').hidden = false;
+                    window.scrollTo(0, 0);
+
+                    const colgante = $('colgante');
+                    colgante.classList.remove('entra');
+                    void colgante.offsetWidth;
+                    colgante.classList.add('entra');
                 } else {
-                    document.getElementById('inputNombre').style.display = 'block';
-                    alert(datos.mensaje); 
+                    nuevoUsuario = true;
+                    $('campoNombre').hidden = false;
+                    avisoLogin(datos.mensaje || "Parece que eres nuevo. Escribe tu nombre para crear tu tarjeta.");
+                    $('inputNombre').focus();
                 }
             } catch (error) {
-                alert("Error de conexión.");
+                avisoLogin("No pudimos conectarnos. Revisa tu internet e inténtalo de nuevo.", true);
             } finally {
                 btn.disabled = false;
-                btn.innerText = "Ingresar";
+                btn.textContent = etiquetaIngreso();
             }
         }
 
-        // Sumar sello
+        // --- Sumar sello (PIN del personal) ---
+        function abrirPin() {
+            $('pinInput').value = "";
+            $('errorPin').textContent = "";
+            $('dlgPin').showModal();
+            $('pinInput').focus();
+        }
+
+        function confirmarPin(e) {
+            e.preventDefault();
+            if ($('pinInput').value === CONFIG.pinPersonal) {
+                $('dlgPin').close();
+                sumarSello();
+            } else {
+                $('errorPin').textContent = "PIN incorrecto. Inténtalo de nuevo.";
+                $('pinInput').select();
+            }
+        }
+
         async function sumarSello() {
-            let pinIngresado = prompt("Acción del Barista:\nIngresa el PIN (1234) para validar:");
-            if (pinIngresado === "1234") {
-                document.getElementById('contadorTexto').innerText = "...";
-                try {
-                    let respuesta = await fetch(`${API_URL}?telefono=${telefonoActual}&accion=sumar`);
-                    let datos = await respuesta.json();
-                    
-                    if(datos.status === "success") {
-                        renderizarTarjeta(datos.sellos);
-                        if(datos.sellos === 0) alert("¡Felicidades! Entregar premio.");
+            const btn = $('btnSumar');
+            btn.disabled = true;
+            btn.textContent = "Sumando…";
+
+            try {
+                let respuesta = await fetch(`${API_URL}?telefono=${encodeURIComponent(telefonoActual)}&accion=sumar`);
+                let datos = await respuesta.json();
+
+                if (datos.status === "success") {
+                    const sellos = Number(datos.sellos);
+                    if (sellos === 0) {
+                        // Se completó la tarjeta: se muestra el último sello antes de reiniciar
+                        renderizarTarjeta(totalSellos, totalSellos);
+                        setTimeout(() => $('dlgPremio').showModal(), 900);
+                    } else {
+                        renderizarTarjeta(sellos, sellos);
+                        mostrarToast("Sello sumado");
                     }
-                } catch (error) {
-                    alert("Error al sumar el sello.");
+                } else {
+                    mostrarToast(datos.mensaje || "No se pudo sumar el sello.");
                 }
-            } else if (pinIngresado !== null) {
-                alert("❌ PIN incorrecto.");
+            } catch (error) {
+                mostrarToast("No se pudo sumar el sello. Revisa tu internet.");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Sumar sello";
             }
         }
 
-        function renderizarTarjeta(sellosAcumulados) {
-            const contenedor = document.getElementById('contenedorSellos');
-            contenedor.innerHTML = ''; 
-            for(let i = 1; i <= totalSellos; i++) {
-                let divSello = document.createElement('div');
-                if (i <= sellosAcumulados) {
-                    divSello.className = 'sello activo';
-                    divSello.innerHTML = '☕'; 
-                } else {
-                    divSello.className = 'sello';
-                    divSello.innerHTML = i; 
-                }
-                contenedor.appendChild(divSello);
+        function renderizarTarjeta(sellosAcumulados, indiceNuevo = null) {
+            const acumulados = Number(sellosAcumulados) || 0;
+            sellosActuales = acumulados;
+
+            const contenedor = $('contenedorSellos');
+            contenedor.replaceChildren();
+
+            for (let i = 1; i <= totalSellos; i++) {
+                const lleno = i <= acumulados;
+                const li = document.createElement('li');
+                li.className = 'sello'
+                    + (lleno ? ' activo' : '')
+                    + (i === totalSellos ? ' premio' : '')
+                    + (i === indiceNuevo ? ' nuevo' : '');
+                li.setAttribute('aria-label',
+                    `Sello ${i}${i === totalSellos ? ' (premio)' : ''}: ${lleno ? 'sumado' : 'pendiente'}`);
+                li.innerHTML = lleno ? ICONO_SELLO : `<span aria-hidden="true">${i}</span>`;
+                contenedor.appendChild(li);
             }
-            document.getElementById('contadorTexto').innerText = sellosAcumulados;
+
+            $('contadorTexto').textContent = acumulados;
+
+            const faltan = totalSellos - acumulados;
+            let mensaje;
+            if (acumulados === 0) mensaje = "Tu próxima compra suma el primer sello.";
+            else if (faltan <= 0) mensaje = "Tarjeta completa.";
+            else if (faltan === 1) mensaje = "Te falta 1 sello para tu premio.";
+            else mensaje = `Te faltan ${faltan} sellos para tu premio.`;
+            $('mensajeFalta').textContent = mensaje;
         }
 
         function cerrarSesion() {
             telefonoActual = "";
-            document.getElementById('inputTelefono').value = '';
-            document.getElementById('inputNombre').value = '';
-            document.getElementById('inputNombre').style.display = 'none';
-            document.getElementById('pantallaTarjeta').style.display = 'none';
-            document.getElementById('pantallaLogin').style.display = 'block';
+            nuevoUsuario = false;
+            $('inputTelefono').value = '';
+            $('inputNombre').value = '';
+            $('campoNombre').hidden = true;
+            avisoLogin('');
+            $('btnIngresar').textContent = etiquetaIngreso();
+            $('pantallaTarjeta').hidden = true;
+            $('pantallaLogin').hidden = false;
+            $('inputTelefono').focus();
         }
+
+        // --- Eventos ---
+        $('formLogin').addEventListener('submit', iniciarSesion);
+        $('formPin').addEventListener('submit', confirmarPin);
+        $('pinCancelar').addEventListener('click', () => $('dlgPin').close());
+        $('premioListo').addEventListener('click', () => $('dlgPremio').close());
+        $('dlgPremio').addEventListener('close', () => renderizarTarjeta(0));
 
         // --- MANEJO DEL BOTÓN DE INSTALACIÓN PERSONALIZADO (PWA) ---
         let eventoInstalacion;
@@ -189,18 +613,18 @@
             // Prevenir el aviso automático de Chrome
             e.preventDefault();
             eventoInstalacion = e;
-            
-            // Mostrar nuestro botón verde
-            document.getElementById('btnInstalar').style.display = 'block';
+
+            // Mostrar nuestro botón
+            $('btnInstalar').hidden = false;
         });
 
-        document.getElementById('btnInstalar').addEventListener('click', async () => {
+        $('btnInstalar').addEventListener('click', async () => {
             if (eventoInstalacion) {
                 eventoInstalacion.prompt(); // Mostrar el diálogo nativo
                 const { outcome } = await eventoInstalacion.userChoice;
                 if (outcome === 'accepted') {
                     // Si el usuario instaló, ocultamos el botón
-                    document.getElementById('btnInstalar').style.display = 'none'; 
+                    $('btnInstalar').hidden = true;
                 }
                 eventoInstalacion = null;
             }
