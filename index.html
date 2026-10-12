@@ -52,6 +52,13 @@
         button { background-color: #3b2818; color: white; border: none; padding: 15px 20px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; margin-top: 15px;}
         button:active { transform: scale(0.98); }
         button:disabled { background-color: #ccc; cursor: not-allowed; }
+        
+        /* Estilo para el botón de instalar */
+        #btnInstalar {
+            display: none; 
+            background-color: #28a745; /* Verde llamativo */
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -60,6 +67,9 @@
     <div class="login-container" id="pantallaLogin">
         <h2>Bienvenido</h2>
         <p>Ingresa tu número para ver tus sellos.</p>
+        
+        <!-- Botón de instalación (Solo visible en Android cuando esté disponible) -->
+        <button id="btnInstalar">📲 Instalar Aplicación</button>
         
         <input type="tel" id="inputTelefono" placeholder="Número de celular" required>
         <input type="text" id="inputNombre" placeholder="Tu Nombre (Eres nuevo)">
@@ -173,7 +183,30 @@
             document.getElementById('pantallaLogin').style.display = 'block';
         }
 
-        // --- ACTIVAR EL SERVICE WORKER PARA APP INSTALABLE (PWA) ---
+        // --- MANEJO DEL BOTÓN DE INSTALACIÓN PERSONALIZADO (PWA) ---
+        let eventoInstalacion;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevenir el aviso automático de Chrome
+            e.preventDefault();
+            eventoInstalacion = e;
+            
+            // Mostrar nuestro botón verde
+            document.getElementById('btnInstalar').style.display = 'block';
+        });
+
+        document.getElementById('btnInstalar').addEventListener('click', async () => {
+            if (eventoInstalacion) {
+                eventoInstalacion.prompt(); // Mostrar el diálogo nativo
+                const { outcome } = await eventoInstalacion.userChoice;
+                if (outcome === 'accepted') {
+                    // Si el usuario instaló, ocultamos el botón
+                    document.getElementById('btnInstalar').style.display = 'none'; 
+                }
+                eventoInstalacion = null;
+            }
+        });
+
+        // --- ACTIVAR EL SERVICE WORKER ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(reg => {
