@@ -22,16 +22,26 @@
             --texto-suave: #9a9289;
             --error: #e57373;
             --focus-ring: rgba(166, 123, 81, 0.4);
+            --borde: #3d3835;
+            --borde-suave: rgba(232, 220, 200, 0.08);
             
             --font-sans: 'Instrument Sans', system-ui, -apple-system, sans-serif;
             --font-serif: 'Playfair Display', serif;
+
+            --radio-md: 16px;
+            --radio-lg: 24px;
+            --sombra-suave: 0 10px 30px rgba(0,0,0,0.35);
+            --sombra-tarjeta: 0 24px 48px rgba(0,0,0,0.55), inset 0 1px 1px rgba(255,255,255,0.05);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { -webkit-text-size-adjust: 100%; }
 
         body {
-            background: var(--concreto);
+            background:
+                radial-gradient(1200px 500px at 50% -10%, rgba(166, 123, 81, 0.10), transparent 60%),
+                radial-gradient(800px 400px at 100% 100%, rgba(166, 123, 81, 0.05), transparent 55%),
+                var(--concreto);
             color: var(--petroleo);
             font-family: var(--font-sans);
             font-size: 16px;
@@ -51,7 +61,7 @@
             width: 100%;
             max-width: 400px;
             margin: 0 auto;
-            padding: 40px 24px 24px;
+            padding: 48px 24px 24px;
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -59,7 +69,7 @@
 
         /* --- Header & Integración del Logo --- */
         .logo-container {
-            margin-bottom: 24px;
+            margin-bottom: 28px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -67,52 +77,76 @@
         }
         
         .logo-img { 
-            height: 64px; 
+            height: 72px; 
             width: auto; 
             object-fit: contain; 
-            margin-bottom: 16px;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
-            /* Fondo transparente para que se integre perfectamente */
-            background: transparent; 
+            margin-bottom: 18px;
+            /* Puntas redondeadas para el logo */
+            border-radius: 18px;
+            overflow: hidden;
+            padding: 0;
+            background: transparent;
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.45));
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .logo-img:hover { transform: translateY(-2px) scale(1.02); }
+
+        /* Decoración: línea fina latón bajo el logo */
+        .logo-decor {
+            width: 56px;
+            height: 2px;
+            margin-bottom: 18px;
+            background: linear-gradient(90deg, transparent, var(--laton), transparent);
+            border-radius: 2px;
         }
 
         .brand-title { 
             font-family: var(--font-serif); 
-            font-size: 32px; 
+            font-size: 34px; 
             font-weight: 600; 
             line-height: 1.1; 
             color: var(--petroleo);
-            letter-spacing: 0.03em;
+            letter-spacing: 0.05em;
+            background: linear-gradient(180deg, #f3ead9 0%, var(--petroleo) 60%, #cbbda6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .brand-subtitle { 
             font-size: 13px; 
             text-transform: uppercase; 
-            letter-spacing: 0.25em; 
-            color: var(--laton); 
+            letter-spacing: 0.35em; 
+            color: var(--laton-texto); 
             font-weight: 500; 
-            margin-top: 4px;
+            margin-top: 6px;
+            padding-left: 0.35em; /* compensa el letter-spacing */
         }
 
         /* ---------- INGRESO ---------- */
-        .login-texto { color: var(--texto-suave); margin-bottom: 32px; font-size: 15px; text-align: center; }
+        .login-texto { color: var(--texto-suave); margin-bottom: 32px; font-size: 15px; text-align: center; line-height: 1.6; }
         
         .campo { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-        .campo label { font-size: 13px; font-weight: 500; color: var(--petroleo); }
+        .campo label { font-size: 13px; font-weight: 500; color: var(--petroleo); letter-spacing: 0.02em; }
 
         input[type="tel"], input[type="text"], input[type="password"] {
             width: 100%;
             height: 56px;
             padding: 0 20px;
-            border: 1px solid #3d3835;
-            border-radius: 16px; /* Puntas redondeadas profesionales */
-            background: var(--lino);
+            border: 1px solid var(--borde);
+            border-radius: var(--radio-md);
+            background: linear-gradient(180deg, #2a2724 0%, var(--lino) 100%);
             color: var(--petroleo);
             font-family: inherit;
             font-size: 17px;
-            transition: all 0.2s ease;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
         }
         input::placeholder { color: #6b635d; }
-        input:focus { outline: none; border-color: var(--laton); box-shadow: 0 0 0 4px var(--focus-ring); background: #2a2724; }
+        input:focus {
+            outline: none;
+            border-color: var(--laton);
+            box-shadow: 0 0 0 4px var(--focus-ring), 0 6px 18px rgba(0,0,0,0.25);
+            background: #2a2724;
+        }
 
         .aviso { font-size: 14px; color: var(--texto-suave); margin: -6px 0 20px; min-height: 20px; text-align: center; }
         .aviso.error { color: var(--error); }
@@ -121,25 +155,32 @@
             width: 100%;
             height: 56px;
             border: none;
-            border-radius: 16px; /* Puntas redondeadas profesionales */
-            background: var(--petroleo);
+            border-radius: var(--radio-md);
+            background: linear-gradient(180deg, #f2e8d7 0%, var(--petroleo) 55%, #d8cab3 100%);
             color: var(--concreto);
             font-family: inherit;
             font-size: 16px;
             font-weight: 600;
+            letter-spacing: 0.01em;
             cursor: pointer;
-            transition: transform 0.1s, background 0.2s;
+            transition: transform 0.1s, box-shadow 0.2s, filter 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.35), inset 0 1px 1px rgba(255,255,255,0.6);
         }
-        .btn:hover { background: #d1c4b1; }
+        .btn:hover { filter: brightness(1.04); box-shadow: 0 10px 26px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.6); }
         .btn:active { transform: scale(0.98); }
         .btn:disabled { background: #3d3835; color: #7a7069; cursor: not-allowed; transform: none; box-shadow: none; }
         
-        .btn-ghost { background: transparent; color: var(--petroleo); border: 1.5px solid #3d3835; margin-top: 16px; box-shadow: none; }
-        .btn-ghost:hover { background: rgba(232, 220, 200, 0.05); border-color: var(--petroleo); }
+        .btn-ghost {
+            background: rgba(232, 220, 200, 0.03);
+            color: var(--petroleo);
+            border: 1.5px solid var(--borde);
+            margin-top: 16px;
+            box-shadow: none;
+        }
+        .btn-ghost:hover { background: rgba(232, 220, 200, 0.07); border-color: var(--petroleo); filter: none; box-shadow: none; }
 
         /* ---------- TARJETA DIGITAL ---------- */
         .pantalla-tarjeta { opacity: 0; }
@@ -151,16 +192,34 @@
         }
 
         .header-cliente { margin-bottom: 24px; text-align: center; }
-        .bienvenido { font-size: 13px; color: var(--texto-suave); margin-bottom: 4px; display: block; }
-        .nombre-cliente { font-family: var(--font-serif); font-size: 26px; line-height: 1.2; color: var(--petroleo); }
+        .bienvenido { font-size: 13px; color: var(--texto-suave); margin-bottom: 4px; display: block; letter-spacing: 0.04em; }
+        .nombre-cliente {
+            font-family: var(--font-serif);
+            font-size: 28px;
+            line-height: 1.2;
+            color: var(--laton-texto);
+        }
 
         .credencial {
-            background: var(--lino);
-            border: 1px solid #3d3835;
-            border-radius: 24px; /* Tarjeta moderna y muy suave */
+            background:
+                radial-gradient(600px 200px at 50% 0%, rgba(166, 123, 81, 0.10), transparent 70%),
+                linear-gradient(180deg, #2a2724 0%, var(--lino) 100%);
+            border: 1px solid var(--borde);
+            border-radius: var(--radio-lg);
             padding: 32px 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05);
+            box-shadow: var(--sombra-tarjeta);
             margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Brillo superior sutil tipo tarjeta premium */
+        .credencial::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 15%;
+            right: 15%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201, 164, 126, 0.6), transparent);
         }
 
         .grid-sellos {
@@ -173,22 +232,22 @@
         .sello {
             aspect-ratio: 1;
             border-radius: 50%;
-            background: #2f2b28;
-            border: 1px solid #3d3835;
+            background: radial-gradient(circle at 35% 30%, #38332f, #2b2724 70%);
+            border: 1px solid var(--borde);
             display: grid;
             place-items: center;
             font-family: var(--font-serif);
             font-size: 18px;
             color: #6b635d;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.45);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .sello.activo {
-            background: var(--laton);
+            background: radial-gradient(circle at 35% 30%, #c39a6d, var(--laton) 65%, #8d6844 100%);
             color: var(--concreto);
-            border-color: var(--laton);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3), inset 0 0 0 3px var(--laton), inset 0 0 0 4px rgba(25, 23, 22, 0.2);
+            border-color: var(--laton-texto);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.35), inset 0 0 0 3px var(--laton), inset 0 0 0 4px rgba(25, 23, 22, 0.2);
         }
 
         .sello.premio { border: 1.5px dashed var(--laton); }
@@ -217,13 +276,13 @@
             position: relative;
             width: 100%;
             height: 64px;
-            background: var(--lino);
-            border: 1px solid #3d3835;
-            border-radius: 20px; /* Cápsula con puntas perfectamente redondeadas */
+            background: linear-gradient(180deg, #2a2724 0%, var(--lino) 100%);
+            border: 1px solid var(--borde);
+            border-radius: 20px;
             overflow: hidden;
             touch-action: none;
             margin-bottom: 16px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.45);
         }
         .slider-text {
             position: absolute;
@@ -233,6 +292,7 @@
             justify-content: center;
             font-size: 15px;
             font-weight: 600;
+            letter-spacing: 0.03em;
             color: var(--texto-suave);
             pointer-events: none;
             z-index: 1;
@@ -244,15 +304,15 @@
             left: 4px;
             width: 54px;
             height: 54px;
-            background: var(--laton);
+            background: linear-gradient(180deg, #c39a6d, var(--laton));
             color: var(--concreto);
-            border-radius: 16px; /* Botón interior redondeado estilo app nativa */
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 3;
             cursor: grab;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.3);
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .slider-thumb:active { cursor: grabbing; transform: scale(0.95); }
@@ -260,7 +320,7 @@
             position: absolute;
             top: 0; left: 0; bottom: 0;
             width: 0;
-            background: rgba(166, 123, 81, 0.2);
+            background: linear-gradient(90deg, rgba(166, 123, 81, 0.10), rgba(166, 123, 81, 0.28));
             z-index: 2;
             transition: width 0.4s ease;
         }
@@ -287,14 +347,16 @@
             max-width: 340px;
             margin: auto;
             padding: 32px 24px;
-            border: 1px solid #3d3835;
-            border-radius: 24px; /* Diálogos modernos con curvas suaves */
-            background: var(--lino);
+            border: 1px solid var(--borde);
+            border-radius: var(--radio-lg);
+            background:
+                radial-gradient(500px 160px at 50% 0%, rgba(166, 123, 81, 0.12), transparent 70%),
+                linear-gradient(180deg, #2a2724 0%, var(--lino) 100%);
             color: var(--petroleo);
             box-shadow: 0 24px 48px rgba(0,0,0,0.6);
         }
         dialog::backdrop { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(6px); }
-        dialog h3 { font-family: var(--font-serif); font-size: 22px; color: var(--laton); margin-bottom: 8px; text-align: center; }
+        dialog h3 { font-family: var(--font-serif); font-size: 22px; color: var(--laton-texto); margin-bottom: 8px; text-align: center; }
         dialog p { color: var(--texto-suave); font-size: 14px; margin-bottom: 24px; text-align: center; }
         
         #pinInput {
@@ -303,7 +365,7 @@
             font-size: 24px; 
             margin-bottom: 12px;
             background: var(--concreto);
-            border-radius: 16px;
+            border-radius: var(--radio-md);
         }
         
         .acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -313,19 +375,24 @@
             bottom: calc(24px + env(safe-area-inset-bottom, 0px));
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: var(--petroleo);
+            background: linear-gradient(180deg, #f2e8d7, var(--petroleo));
             color: var(--concreto);
             padding: 14px 24px;
-            border-radius: 16px;
+            border-radius: 18px;
             font-size: 15px;
             font-weight: 600;
             opacity: 0;
             pointer-events: none;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.45);
             z-index: 100;
         }
         .toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* Accesibilidad: movimiento reducido */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
     </style>
 </head>
 <body>
@@ -334,6 +401,7 @@
     <main class="pantalla" id="pantallaLogin">
         <div class="logo-container">
             <img src="logo.png" alt="Logo Toco Madera" class="logo-img">
+            <div class="logo-decor" aria-hidden="true"></div>
             <h1 class="brand-title">TOCO MADERA</h1>
             <span class="brand-subtitle">COFFEE LAB</span>
         </div>
