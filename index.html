@@ -14,7 +14,6 @@
 
     <style>
         :root {
-            /* Paleta corporativa recuperada: Toco Madera */
             --petroleo: #e8dcc8; 
             --laton: #a67b51; 
             --laton-texto: #c9a47e; 
@@ -46,7 +45,7 @@
         }
 
         [hidden] { display: none !important; }
-        :focus-visible { outline: 2px solid var(--laton); outline-offset: 2px; border-radius: 8px; }
+        :focus-visible { outline: 2px solid var(--laton); outline-offset: 2px; border-radius: 12px; }
 
         .pantalla {
             width: 100%;
@@ -58,19 +57,44 @@
             flex: 1;
         }
 
-        /* --- Header & Tipografía --- */
+        /* --- Header & Integración del Logo --- */
         .logo-container {
-            margin-bottom: 32px;
+            margin-bottom: 24px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            align-items: center;
+            text-align: center;
         }
-        .logo-img { height: 50px; width: auto; object-fit: contain; align-self: flex-start; }
-        .brand-title { font-family: var(--font-serif); font-size: 34px; font-weight: 600; line-height: 1.1; color: var(--petroleo); }
-        .brand-subtitle { font-size: 13px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--laton); font-weight: 500; }
+        
+        .logo-img { 
+            height: 64px; 
+            width: auto; 
+            object-fit: contain; 
+            margin-bottom: 16px;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+            /* Fondo transparente para que se integre perfectamente */
+            background: transparent; 
+        }
+
+        .brand-title { 
+            font-family: var(--font-serif); 
+            font-size: 32px; 
+            font-weight: 600; 
+            line-height: 1.1; 
+            color: var(--petroleo);
+            letter-spacing: 0.03em;
+        }
+        .brand-subtitle { 
+            font-size: 13px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.25em; 
+            color: var(--laton); 
+            font-weight: 500; 
+            margin-top: 4px;
+        }
 
         /* ---------- INGRESO ---------- */
-        .login-texto { color: var(--texto-suave); margin-bottom: 28px; font-size: 15px; }
+        .login-texto { color: var(--texto-suave); margin-bottom: 32px; font-size: 15px; text-align: center; }
         
         .campo { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
         .campo label { font-size: 13px; font-weight: 500; color: var(--petroleo); }
@@ -78,9 +102,9 @@
         input[type="tel"], input[type="text"], input[type="password"] {
             width: 100%;
             height: 56px;
-            padding: 0 16px;
+            padding: 0 20px;
             border: 1px solid #3d3835;
-            border-radius: 12px;
+            border-radius: 16px; /* Puntas redondeadas profesionales */
             background: var(--lino);
             color: var(--petroleo);
             font-family: inherit;
@@ -90,14 +114,14 @@
         input::placeholder { color: #6b635d; }
         input:focus { outline: none; border-color: var(--laton); box-shadow: 0 0 0 4px var(--focus-ring); background: #2a2724; }
 
-        .aviso { font-size: 14px; color: var(--texto-suave); margin: -6px 0 20px; min-height: 20px; }
+        .aviso { font-size: 14px; color: var(--texto-suave); margin: -6px 0 20px; min-height: 20px; text-align: center; }
         .aviso.error { color: var(--error); }
 
         .btn {
             width: 100%;
             height: 56px;
             border: none;
-            border-radius: 12px;
+            border-radius: 16px; /* Puntas redondeadas profesionales */
             background: var(--petroleo);
             color: var(--concreto);
             font-family: inherit;
@@ -108,13 +132,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
         }
         .btn:hover { background: #d1c4b1; }
         .btn:active { transform: scale(0.98); }
-        .btn:disabled { background: #3d3835; color: #7a7069; cursor: not-allowed; transform: none; }
+        .btn:disabled { background: #3d3835; color: #7a7069; cursor: not-allowed; transform: none; box-shadow: none; }
         
-        .btn-ghost { background: transparent; color: var(--petroleo); border: 1.5px solid var(--petroleo); margin-top: 16px; }
-        .btn-ghost:hover { background: rgba(232, 220, 200, 0.08); }
+        .btn-ghost { background: transparent; color: var(--petroleo); border: 1.5px solid #3d3835; margin-top: 16px; box-shadow: none; }
+        .btn-ghost:hover { background: rgba(232, 220, 200, 0.05); border-color: var(--petroleo); }
 
         /* ---------- TARJETA DIGITAL ---------- */
         .pantalla-tarjeta { opacity: 0; }
@@ -125,15 +150,15 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .header-cliente { margin-bottom: 24px; }
+        .header-cliente { margin-bottom: 24px; text-align: center; }
         .bienvenido { font-size: 13px; color: var(--texto-suave); margin-bottom: 4px; display: block; }
         .nombre-cliente { font-family: var(--font-serif); font-size: 26px; line-height: 1.2; color: var(--petroleo); }
 
         .credencial {
             background: var(--lino);
             border: 1px solid #3d3835;
-            border-radius: 20px;
-            padding: 28px 20px;
+            border-radius: 24px; /* Tarjeta moderna y muy suave */
+            padding: 32px 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05);
             margin-bottom: 24px;
         }
@@ -141,7 +166,7 @@
         .grid-sellos {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
+            gap: 16px;
             list-style: none;
         }
 
@@ -178,7 +203,7 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        .progreso-text { margin-top: 24px; text-align: center; }
+        .progreso-text { margin-top: 28px; text-align: center; }
         .progreso-text .linea1 { font-size: 16px; font-weight: 600; color: var(--petroleo); margin-bottom: 4px; }
         .progreso-text .linea2 { font-size: 13px; color: var(--texto-suave); }
 
@@ -194,7 +219,7 @@
             height: 64px;
             background: var(--lino);
             border: 1px solid #3d3835;
-            border-radius: 16px;
+            border-radius: 20px; /* Cápsula con puntas perfectamente redondeadas */
             overflow: hidden;
             touch-action: none;
             margin-bottom: 16px;
@@ -221,7 +246,7 @@
             height: 54px;
             background: var(--laton);
             color: var(--concreto);
-            border-radius: 12px;
+            border-radius: 16px; /* Botón interior redondeado estilo app nativa */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -261,23 +286,24 @@
             width: calc(100% - 48px);
             max-width: 340px;
             margin: auto;
-            padding: 28px 24px;
+            padding: 32px 24px;
             border: 1px solid #3d3835;
-            border-radius: 16px;
+            border-radius: 24px; /* Diálogos modernos con curvas suaves */
             background: var(--lino);
             color: var(--petroleo);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.6);
         }
-        dialog::backdrop { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); }
-        dialog h3 { font-family: var(--font-serif); font-size: 22px; color: var(--laton); margin-bottom: 8px; }
-        dialog p { color: var(--texto-suave); font-size: 14px; margin-bottom: 20px; }
+        dialog::backdrop { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(6px); }
+        dialog h3 { font-family: var(--font-serif); font-size: 22px; color: var(--laton); margin-bottom: 8px; text-align: center; }
+        dialog p { color: var(--texto-suave); font-size: 14px; margin-bottom: 24px; text-align: center; }
         
         #pinInput {
             letter-spacing: 0.5em; 
             text-align: center; 
             font-size: 24px; 
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             background: var(--concreto);
+            border-radius: 16px;
         }
         
         .acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -289,8 +315,8 @@
             transform: translateX(-50%) translateY(20px);
             background: var(--petroleo);
             color: var(--concreto);
-            padding: 14px 20px;
-            border-radius: 12px;
+            padding: 14px 24px;
+            border-radius: 16px;
             font-size: 15px;
             font-weight: 600;
             opacity: 0;
@@ -308,10 +334,8 @@
     <main class="pantalla" id="pantallaLogin">
         <div class="logo-container">
             <img src="logo.png" alt="Logo Toco Madera" class="logo-img">
-            <div>
-                <h1 class="brand-title">TOCO MADERA</h1>
-                <span class="brand-subtitle">COFFEE LAB</span>
-            </div>
+            <h1 class="brand-title">TOCO MADERA</h1>
+            <span class="brand-subtitle">COFFEE LAB</span>
         </div>
         
         <p class="login-texto">Ingresa tu número y descubre cuántos sellos llevas acumulados.</p>
