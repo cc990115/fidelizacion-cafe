@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafetería - Fidelización</title>
+    
+    <!-- Configuración para App Instalable (PWA) -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3b2818">
+
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            text-align: center; 
+            background-color: #f7f3f0; 
+            padding: 20px; 
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+        }
+        .tarjeta-container, .login-container { 
+            background: white; 
+            border-radius: 20px; 
+            padding: 30px 20px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08); 
+            width: 100%;
+            max-width: 350px; 
+        }
+        #pantallaTarjeta { display: none; }
+        h2 { color: #3b2818; margin-top: 0; }
+        p { color: #666; font-size: 16px; margin-bottom: 25px;}
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #e9e9e9;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input:focus { border-color: #8c6239; }
+        #inputNombre { display: none; }
+
+        .grid-sellos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 30px 0; }
+        .sello { width: 65px; height: 65px; border-radius: 50%; background-color: #e9e9e9; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto; color: #aaa; transition: all 0.3s ease; }
+        .sello.activo { background-color: #8c6239; color: white; box-shadow: 0 4px 8px rgba(140, 98, 57, 0.4); }
+
+        button { background-color: #3b2818; color: white; border: none; padding: 15px 20px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; margin-top: 15px;}
+        button:active { transform: scale(0.98); }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA DE INGRESO -->
+    <div class="login-container" id="pantallaLogin">
+        <h2>Bienvenido</h2>
+        <p>Ingresa tu número para ver tus sellos.</p>
+        
+        <input type="tel" id="inputTelefono" placeholder="Número de celular" required>
+        <input type="text" id="inputNombre" placeholder="Tu Nombre (Eres nuevo)">
+        
+        <button id="btnIngresar" onclick="iniciarSesion()">Ingresar</button>
+    </div>
+
+    <!-- PANTALLA DE LA TARJETA VIP (Oculta al inicio) -->
+    <div class="tarjeta-container" id="pantallaTarjeta">
+        <h2>☕ Tu Tarjeta VIP</h2>
+        <p>Cliente: <strong id="nombreCliente">Cargando...</strong></p>
+        <p>Llevas <span id="contadorTexto">0</span> de 9 cafés.</p>
+
+        <div class="grid-sellos" id="contenedorSellos"></div>
+
+        <button onclick="sumarSello()">+ Sumar Sello (Solo Barista)</button>
+        <button onclick="cerrarSesion()" style="background-color: transparent; color: #8c6239; border: 2px solid #8c6239;">Salir</button>
+    </div>
+
+    <script>
+        // --- AQUÍ DEBES PEGAR TU URL DE GOOGLE SCRIPT ---
+        const API_URL = "https://script.google.com/macros/s/AKfycbzN3QXKnaYLHyvl96b4A1ONO6sFT29F9eUfLIWfxqQY3hpo_pN4pLrYf1yQVJGKSIQ5/exec"; 
+        
+        let telefonoActual = ""; 
+        const totalSellos = 9;
+
+        // Función de Ingreso / Registro
+        async function iniciarSesion() {
+            const telInput = document.getElementById('inputTelefono').value;
+            const nomInput = document.getElementById('inputNombre').value;
+            const btn = document.getElementById('btnIngresar');
+
+            if (telInput.length < 7) {
+                alert("Ingresa un número válido.");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "Verificando...";
+
+            try {
+                let url = `${API_URL}?telefono=${telInput}&accion=login`;
+                if(nomInput) url += `&nombre=${encodeURIComponent(nomInput)}`;
+
+                let respuesta = await fetch(url);
+                let datos = await respuesta.json();
+                
+                if(datos.status === "success") {
+                    telefonoActual = telInput;
+                    document.getElementById('nombreCliente').innerText = datos.nombre;
+                    renderizarTarjeta(datos.sellos);
+                    
+                    document.getElementById('pantallaLogin').style.display = 'none';
+                    document.getElementById('pantallaTarjeta').style.display = 'block';
+                } else {
+                    document.getElementById('inputNombre').style.display = 'block';
+                    alert(datos.mensaje); 
+                }
+            } catch (error) {
+                alert("Error de conexión.");
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Ingresar";
+            }
+        }
+
+        // Sumar sello
+        async function sumarSello() {
+            let pinIngresado = prompt("Acción del Barista:\nIngresa el PIN (1234) para validar:");
+            if (pinIngresado === "1234") {
+                document.getElementById('contadorTexto').innerText = "...";
+                try {
+                    let respuesta = await fetch(`${API_URL}?telefono=${telefonoActual}&accion=sumar`);
+                    let datos = await respuesta.json();
+                    
+                    if(datos.status === "success") {
+                        renderizarTarjeta(datos.sellos);
+                        if(datos.sellos === 0) alert("¡Felicidades! Entregar premio.");
+                    }
+                } catch (error) {
+                    alert("Error al sumar el sello.");
+                }
+            } else if (pinIngresado !== null) {
+                alert("❌ PIN incorrecto.");
+            }
+        }
+
+        function renderizarTarjeta(sellosAcumulados) {
+            const contenedor = document.getElementById('contenedorSellos');
+            contenedor.innerHTML = ''; 
+            for(let i = 1; i <= totalSellos; i++) {
+                let divSello = document.createElement('div');
+                if (i <= sellosAcumulados) {
+                    divSello.className = 'sello activo';
+                    divSello.innerHTML = '☕'; 
+                } else {
+                    divSello.className = 'sello';
+                    divSello.innerHTML = i; 
+                }
+                contenedor.appendChild(divSello);
+            }
+            document.getElementById('contadorTexto').innerText = sellosAcumulados;
+        }
+
+        function cerrarSesion() {
+            telefonoActual = "";
+            document.getElementById('inputTelefono').value = '';
+            document.getElementById('inputNombre').value = '';
+            document.getElementById('inputNombre').style.display = 'none';
+            document.getElementById('pantallaTarjeta').style.display = 'none';
+            document.getElementById('pantallaLogin').style.display = 'block';
+        }
+
+        // --- ACTIVAR EL SERVICE WORKER PARA APP INSTALABLE (PWA) ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(reg => {
+                    console.log('Service Worker registrado correctamente', reg);
+                }).catch(err => {
+                    console.log('Error al registrar Service Worker', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "Tarjeta VIP Cafetería",
+  "short_name": "Mi Café",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f7f3f0",
+  "theme_color": "#3b2818",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/924/924514.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
