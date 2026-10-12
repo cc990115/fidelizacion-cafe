@@ -5,24 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Tarjeta VIP - Toco Madera</title>
 
-    <!-- Configuración para App Instalable (PWA) -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#191716">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Importamos Playfair Display para la elegancia de la marca y Instrument Sans para lectura -->
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Playfair+Display:ital,wght@0,500;0,600;0,700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* Paleta inspirada en Toco Madera Coffee Lab[cite: 8, 9] */
-            --petroleo: #e8dcc8; /* Beige latte para textos y botones principales[cite: 9] */
-            --petroleo-2: #d1c4b1; /* Beige secundario para interacciones */
-            --laton: #a67b51; /* Tono madera / caramelo extraído de iconos[cite: 8] */
+            --petroleo: #e8dcc8; 
+            --petroleo-2: #d1c4b1; 
+            --laton: #a67b51; 
             --laton-texto: #c9a47e; 
-            --concreto: #191716; /* Fondo oscuro mate[cite: 8] */
-            --lino: #24211f; /* Fondo secundario para inputs y contenedores */
+            --concreto: #191716; 
+            --lino: #24211f; 
             --texto-suave: #9a9289;
             --error: #e57373;
         }
@@ -43,7 +40,6 @@
             padding-bottom: env(safe-area-inset-bottom, 0px);
         }
 
-        /* Tipografía corporativa para títulos */
         .marca, .login-titulo, .nombre, dialog h3 {
             font-family: 'Playfair Display', serif;
             letter-spacing: 0.02em;
@@ -59,23 +55,29 @@
             padding: 0 24px 40px;
         }
 
+        /* --- Estilos para el Logo --- */
+        .logo-login {
+            display: block;
+            max-width: 140px;
+            height: auto;
+            margin: 40px auto 15px auto;
+        }
+        
+        .logo-tarjeta {
+            display: block;
+            max-width: 80px;
+            height: auto;
+            margin: 0 auto 10px auto;
+        }
+
         /* ---------- INGRESO ---------- */
         #pantallaLogin { padding-top: calc(32px + env(safe-area-inset-top, 0px)); }
 
-        .marca {
-            font-weight: 600;
-            font-size: 19px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--laton);
-            text-align: center;
-        }
-
         .login-titulo {
-            font-size: 42px;
+            font-size: 38px;
             line-height: 1.05;
             font-weight: 600;
-            margin: 50px 0 16px;
+            margin: 0 0 16px;
             text-align: center;
         }
 
@@ -151,7 +153,7 @@
 
         #btnInstalar { margin-top: 16px; }
 
-        /* ---------- TARJETA (credencial) ---------- */
+        /* ---------- TARJETA ---------- */
         #pantallaTarjeta { overflow: visible; padding-top: 20px;}
 
         .colgante {
@@ -225,7 +227,7 @@
         }
 
         .nombre {
-            margin: 12px 0 32px;
+            margin: 5px 0 32px;
             font-size: 26px;
             line-height: 1.2;
             font-weight: 500;
@@ -315,7 +317,6 @@
         .error-pin { margin: 10px 0 0 !important; font-size: 14px; color: var(--error) !important; }
         .error-pin:empty { display: none; }
 
-        /* ---------- AVISO FLOTANTE ---------- */
         .toast {
             position: fixed;
             left: 50%;
@@ -341,6 +342,9 @@
 
     <!-- PANTALLA DE INGRESO -->
     <main class="pantalla" id="pantallaLogin">
+        <!-- Logo en la pantalla principal -->
+        <img src="logo.png" alt="Logo Toco Madera" class="logo-login">
+        
         <h1 class="login-titulo" data-marca>TOCO MADERA<br><span style="font-size: 20px; font-family: 'Instrument Sans', sans-serif; font-weight: 400; letter-spacing: 0.2em; color: var(--laton);">COFFEE LAB</span></h1>
         <p class="login-texto">Ingresa tu número y descubre cuántos sellos llevas acumulados.</p>
 
@@ -360,11 +364,10 @@
             <button type="submit" class="btn" id="btnIngresar">Ver mi tarjeta</button>
         </form>
 
-        <!-- Botón de instalación (solo visible cuando el navegador lo permite) -->
         <button type="button" class="btn btn-borde" id="btnInstalar" hidden>Instalar Aplicación</button>
     </main>
 
-    <!-- PANTALLA DE LA TARJETA (oculta al inicio) -->
+    <!-- PANTALLA DE LA TARJETA -->
     <main class="pantalla" id="pantallaTarjeta" hidden>
         <div class="colgante" id="colgante">
             <div class="correa" aria-hidden="true"></div>
@@ -373,7 +376,9 @@
             <section class="credencial" aria-label="Tu tarjeta de sellos">
                 <div class="ranura" aria-hidden="true"></div>
 
-                <div class="marca" data-marca>TOCO MADERA</div>
+                <!-- Logo en la tarjeta -->
+                <img src="logo.png" alt="Logo Toco Madera" class="logo-tarjeta">
+                
                 <h1 class="nombre" id="nombreCliente">Cargando…</h1>
 
                 <ul class="grid-sellos" id="contenedorSellos" aria-label="Sellos de tu tarjeta"></ul>
@@ -393,7 +398,6 @@
         <button type="button" class="btn-texto salir" onclick="cerrarSesion()">Cerrar sesión</button>
     </main>
 
-    <!-- DIÁLOGO: PIN DEL PERSONAL -->
     <dialog id="dlgPin" aria-labelledby="tituloPin">
         <form id="formPin" novalidate>
             <h3 id="tituloPin">Barista</h3>
@@ -408,7 +412,6 @@
         </form>
     </dialog>
 
-    <!-- DIÁLOGO: TARJETA COMPLETA -->
     <dialog id="dlgPremio" aria-labelledby="tituloPremio">
         <h3 id="tituloPremio">¡Tarjeta Llena!</h3>
         <p>Es momento de entregar el premio. Al cerrar, la tarjeta se reiniciará automáticamente.</p>
@@ -418,10 +421,8 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <script>
-        // --- API URL DE GOOGLE SCRIPT ---
         const API_URL = "https://script.google.com/macros/s/AKfycbzN3QXKnaYLHyvl96b4A1ONO6sFT29F9eUfLIWfxqQY3hpo_pN4pLrYf1yQVJGKSIQ5/exec";
 
-        // --- AJUSTES DEL ESPACIO ---
         const CONFIG = {
             nombreEspacio: "TOCO MADERA", 
             pinPersonal: "1234"
@@ -434,7 +435,6 @@
 
         const $ = (id) => document.getElementById(id);
 
-        // Icono minimalista y elegante para el sello
         const ICONO_SELLO = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
         document.title = "Fidelización - " + CONFIG.nombreEspacio;
@@ -596,11 +596,9 @@
             window.scrollTo(0, 0);
         }
 
-        // Eventos
         $('formLogin').addEventListener('submit', iniciarSesion);
         $('formPin').addEventListener('submit', confirmarPin);$('pinCancelar').addEventListener('click', () => $('dlgPin').close());$('premioListo').addEventListener('click', () => $('dlgPremio').close());$('dlgPremio').addEventListener('close', () => renderizarTarjeta(0));
 
-        // Instalación PWA
         let eventoInstalacion;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -619,7 +617,6 @@
             }
         });
 
-        // Service Worker
         if ('serviceWorker' in navigator) {
             let recargado = false;
             navigator.serviceWorker.addEventListener('controllerchange', () => {
