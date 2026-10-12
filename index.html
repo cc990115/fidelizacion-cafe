@@ -3,312 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Tarjeta VIP - Toco Madera</title>
+    <title>Toco Madera - Coffee Lab</title>
 
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#191716">
+    <meta name="theme-color" content="#09090b">
 
+    <!-- Tipografía: Sans limpia para lectura, Monoespaciada para datos y números (Vibe "Lab") -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Playfair+Display:ital,wght@0,500;0,600;0,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --petroleo: #e8dcc8; 
-            --petroleo-2: #d1c4b1; 
-            --laton: #a67b51; 
-            --laton-texto: #c9a47e; 
-            --concreto: #191716; 
-            --lino: #24211f; 
-            --texto-suave: #9a9289;
-            --error: #e57373;
+            /* Paleta Premium: Cold Luxury / Raw Material */
+            --bg: #09090b;          /* Zinc 950 - Off-black profundo */
+            --surface: #18181b;     /* Zinc 900 - Superficie mate */
+            --border: #27272a;      /* Zinc 800 - Bordes sutiles */
+            --text-main: #fafafa;   /* Blanco nítido */
+            --text-muted: #a1a1aa;  /* Zinc 400 - Texto secundario legibilidad WCAG AA */
+            --accent: #d95c41;      /* Terracota / Óxido - Contraste moderno */
+            --accent-hover: #c24e35;
+            --error: #ef4444;
+            --focus-ring: rgba(217, 92, 65, 0.25);
+            
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, monospace;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         html { -webkit-text-size-adjust: 100%; }
 
         body {
-            margin: 0;
-            min-height: 100vh;
-            min-height: 100dvh;
-            background: var(--concreto);
-            color: var(--petroleo);
-            font-family: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-sans);
             font-size: 16px;
-            line-height: 1.45;
+            line-height: 1.5;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
             overflow-x: hidden;
-            padding-bottom: env(safe-area-inset-bottom, 0px);
-        }
-
-        .marca, .login-titulo, .nombre, dialog h3 {
-            font-family: 'Playfair Display', serif;
-            letter-spacing: 0.02em;
+            padding-bottom: env(safe-area-inset-bottom, 24px);
+            -webkit-font-smoothing: antialiased;
         }
 
         [hidden] { display: none !important; }
-        :focus-visible { outline: 2px solid var(--laton); outline-offset: 3px; }
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
 
         .pantalla {
             width: 100%;
-            max-width: 380px;
+            max-width: 400px;
             margin: 0 auto;
-            padding: 0 24px 40px;
+            padding: 48px 24px 24px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
 
-        /* --- Estilos para el Logo --- */
-        .logo-login {
-            display: block;
-            max-width: 140px;
-            height: auto;
-            margin: 40px auto 15px auto;
-        }
+        /* --- Header & Tipografía --- */
+        h1, h2, h3 { font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
         
-        .logo-tarjeta {
-            display: block;
-            max-width: 80px;
-            height: auto;
-            margin: 0 auto 10px auto;
+        .logo-container {
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
+        .logo-img { height: 48px; width: auto; object-fit: contain; align-self: flex-start; }
+        .brand-title { font-size: 32px; color: var(--text-main); }
+        .brand-subtitle { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
 
         /* ---------- INGRESO ---------- */
-        #pantallaLogin { padding-top: calc(32px + env(safe-area-inset-top, 0px)); }
-
-        .login-titulo {
-            font-size: 38px;
-            line-height: 1.05;
-            font-weight: 600;
-            margin: 0 0 16px;
-            text-align: center;
-        }
-
-        .login-texto {
-            margin: 0 auto 40px;
-            color: var(--texto-suave);
-            max-width: 30ch;
-            text-align: center;
-        }
-
-        .campo { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-        .campo label { font-size: 14px; font-weight: 500; color: var(--petroleo); }
+        .login-texto { color: var(--text-muted); margin-bottom: 32px; font-size: 15px; }
+        
+        .campo { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+        .campo label { font-size: 13px; font-weight: 500; color: var(--text-muted); }
 
         input[type="tel"], input[type="text"], input[type="password"] {
             width: 100%;
             height: 56px;
             padding: 0 16px;
-            border: 1px solid #3d3835;
+            border: 1px solid var(--border);
             border-radius: 12px;
-            background: var(--lino);
-            color: var(--petroleo);
-            font: inherit;
-            font-size: 17px;
+            background: var(--surface);
+            color: var(--text-main);
+            font-family: var(--font-mono); /* Números en monoespacio para precisión */
+            font-size: 16px;
             transition: all 0.2s ease;
         }
-        input::placeholder { color: #6b635d; }
-        input:focus { outline: none; border-color: var(--laton); background: #2a2724; }
+        input::placeholder { color: #52525b; font-family: var(--font-sans); }
+        input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--focus-ring); background: var(--bg); }
 
-        .aviso { margin: -6px 0 18px; font-size: 14px; color: var(--laton-texto); text-align: center; }
-        .aviso:empty { display: none; }
+        .aviso { font-size: 14px; color: var(--text-muted); margin: -12px 0 24px; min-height: 20px; }
         .aviso.error { color: var(--error); }
 
         .btn {
-            display: block;
             width: 100%;
             height: 56px;
-            border: 0;
+            border: none;
             border-radius: 12px;
-            background: var(--petroleo);
-            color: var(--concreto);
-            font: inherit;
-            font-size: 16px;
+            background: var(--text-main);
+            color: var(--bg);
+            font-family: var(--font-sans);
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.15s ease, background-color 0.15s ease;
-        }
-        .btn:hover { background: var(--petroleo-2); }
-        .btn:active { transform: scale(0.985); }
-        .btn:disabled { background: #5a544f; color: #8a837d; cursor: not-allowed; transform: none; }
-
-        .btn-borde {
-            background: transparent;
-            color: var(--petroleo);
-            box-shadow: inset 0 0 0 1.5px var(--petroleo);
-        }
-        .btn-borde:hover { background: rgba(232, 220, 200, 0.08); }
-        .btn-borde:disabled { background: transparent; color: #5a544f; box-shadow: inset 0 0 0 1.5px #3d3835; }
-
-        .btn-texto {
-            background: none;
-            border: 0;
-            padding: 10px 12px;
-            color: var(--texto-suave);
-            font: inherit;
-            font-size: 14px;
-            font-weight: 500;
-            text-decoration: underline;
-            text-underline-offset: 4px;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .btn-texto:hover { color: var(--petroleo); }
-
-        #btnInstalar { margin-top: 16px; }
-
-        /* ---------- TARJETA ---------- */
-        #pantallaTarjeta { overflow: visible; padding-top: 20px;}
-
-        .colgante {
+            transition: transform 0.1s, background 0.2s;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            transform-origin: 50% 0;
+            justify-content: center;
         }
-        .colgante.entra { animation: colgar 1.9s cubic-bezier(0.3, 0.6, 0.4, 1) 1; }
+        .btn:hover { background: #e4e4e7; }
+        .btn:active { transform: scale(0.98); }
+        .btn:disabled { background: var(--surface); color: #52525b; cursor: not-allowed; transform: none; border: 1px solid var(--border); }
+        
+        .btn-ghost { background: transparent; color: var(--text-main); border: 1px solid var(--border); margin-top: 16px; }
+        .btn-ghost:hover { background: var(--surface); }
 
-        @keyframes colgar {
-            0%   { transform: rotate(-3.2deg); }
-            22%  { transform: rotate(2.4deg); }
-            46%  { transform: rotate(-1.4deg); }
-            70%  { transform: rotate(0.7deg); }
-            100% { transform: rotate(0); }
-        }
-
-        .correa {
-            position: relative;
-            width: 30px;
-            height: 50px;
-            background: var(--lino);
-        }
-        .correa::before {
-            content: "";
-            position: absolute;
-            inset: 0 4px;
-            border-inline: 1px dashed rgba(166, 123, 81, 0.4);
+        /* ---------- TARJETA DIGITAL ---------- */
+        .pantalla-tarjeta { opacity: 0; }
+        .pantalla-tarjeta.entra { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .herraje {
-            position: relative;
-            z-index: 2;
-            width: 44px;
-            height: 20px;
-            margin-bottom: -10px;
-            border-radius: 6px 6px 14px 14px;
-            background: var(--laton);
-            box-shadow: 0 3px 6px rgba(0,0,0,0.4);
-        }
+        .header-cliente { margin-bottom: 32px; }
+        .bienvenido { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; display: block; }
+        .nombre-cliente { font-size: 28px; line-height: 1.2; }
 
         .credencial {
-            position: relative;
-            width: 100%;
-            padding: 48px 24px 32px;
-            border-radius: 20px;
-            background: var(--lino);
-            color: var(--petroleo);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05);
-            text-align: center;
-        }
-        .credencial::before {
-            content: "";
-            position: absolute;
-            inset: 8px;
-            border: 1px solid rgba(166, 123, 81, 0.2);
-            border-radius: 14px;
-            pointer-events: none;
-        }
-        .ranura {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            width: 60px;
-            height: 8px;
-            margin-left: -30px;
-            border-radius: 4px;
-            background: var(--concreto);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
-        }
-
-        .nombre {
-            margin: 5px 0 32px;
-            font-size: 26px;
-            line-height: 1.2;
-            font-weight: 500;
-            color: var(--petroleo);
-            overflow-wrap: anywhere;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px;
+            /* Efecto de materialidad digital: sombra profunda y borde interno sutil */
+            box-shadow: 0 24px 48px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+            margin-bottom: 32px;
         }
 
         .grid-sellos {
-            list-style: none;
-            margin: 0;
-            padding: 0;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 16px;
-            justify-items: center;
+            list-style: none;
         }
 
         .sello {
-            position: relative;
-            width: 100%;
-            max-width: 76px;
             aspect-ratio: 1;
             border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg);
             display: grid;
             place-items: center;
-            background: #2f2b28;
-            box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.4);
-            color: #5c554f;
-            font-size: 22px;
-            font-weight: 600;
-            font-family: 'Playfair Display', serif;
+            font-family: var(--font-mono);
+            font-size: 16px;
+            color: #52525b;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
-        .sello.premio { box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.4), 0 0 0 1.5px var(--laton); }
 
         .sello.activo {
-            background: var(--laton);
-            color: var(--concreto);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3), inset 0 0 0 4px var(--laton), inset 0 0 0 5px rgba(25, 23, 22, 0.3);
-        }
-        .sello svg { width: 50%; height: 50%; }
-
-        .sello.nuevo { animation: sellar 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1; }
-        .sello.nuevo::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            border: 2px solid var(--petroleo);
-            animation: onda 0.8s ease-out 0.2s 1 both;
-        }
-        
-        @keyframes sellar {
-            0%   { transform: scale(1.6) rotate(-10deg); opacity: 0; }
-            100% { transform: scale(1) rotate(0); opacity: 1; }
-        }
-        @keyframes onda {
-            from { transform: scale(1); opacity: 0.8; }
-            to   { transform: scale(1.6); opacity: 0; }
+            border-color: var(--accent);
+            background: var(--accent);
+            color: var(--text-main);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 4px 12px rgba(217, 92, 65, 0.25);
         }
 
-        .progreso { margin-top: 32px; }
-        .progreso .linea1 { margin: 0; font-size: 18px; font-weight: 600; color: var(--petroleo); }
-        .progreso .linea2 { margin: 4px 0 0; font-size: 14px; color: var(--texto-suave); }
+        .sello.premio { border-color: var(--text-muted); border-style: dashed; }
+        .sello.activo.premio { border-color: var(--accent); border-style: solid; }
 
-        .zona-personal { margin-top: 40px; }
-        .nota { margin: 10px 0 0; font-size: 13px; color: var(--texto-suave); text-align: center; }
-        .salir { display: block; margin: 24px auto 0; }
+        .sello svg { width: 22px; height: 22px; }
 
-        /* ---------- SLIDER DE VALIDACIÓN (Swipe to Confirm) ---------- */
+        .sello.nuevo { animation: popSello 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        @keyframes popSello {
+            0% { transform: scale(0.6); opacity: 0; }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .progreso-text { margin-top: 32px; text-align: center; }
+        .progreso-text .linea1 { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+        .progreso-text .linea2 { font-size: 13px; color: var(--text-muted); }
+
+        /* ---------- SLIDER DE VALIDACIÓN (Swipe to Confirm Premium) ---------- */
+        .zona-barista {
+            margin-top: auto;
+            padding-top: 24px;
+        }
+
         .slider-container {
             position: relative;
             width: 100%;
             height: 64px;
-            background: var(--lino);
-            border: 1px solid #3d3835;
-            border-radius: 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 99px; /* Forma de cápsula limpia */
             overflow: hidden;
-            touch-action: none; /* Previene scroll al deslizar */
-            margin-top: 15px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+            touch-action: none;
+            margin-bottom: 24px;
         }
         .slider-text {
             position: absolute;
@@ -316,12 +209,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--texto-suave);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
             pointer-events: none;
             z-index: 1;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s;
         }
         .slider-thumb {
             position: absolute;
@@ -329,87 +222,111 @@
             left: 4px;
             width: 54px;
             height: 54px;
-            background: var(--laton);
-            border-radius: 12px;
+            background: var(--text-main);
+            color: var(--bg);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--concreto);
-            z-index: 2;
+            z-index: 3;
             cursor: grab;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .slider-thumb:active { cursor: grabbing; }
+        .slider-thumb:active { cursor: grabbing; transform: scale(0.95); }
         .slider-fill {
             position: absolute;
             top: 0; left: 0; bottom: 0;
             width: 0;
-            background: rgba(166, 123, 81, 0.15);
-            z-index: 0;
-            transition: width 0.3s ease;
+            background: rgba(217, 92, 65, 0.15); /* Rastro sutil en lugar de relleno sólido */
+            z-index: 2;
+            transition: width 0.4s ease;
         }
-        .slider-thumb svg { width: 24px; height: 24px; pointer-events: none;}
+        .slider-thumb svg { width: 20px; height: 20px; pointer-events: none; }
+
+        .btn-texto {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            width: 100%;
+            text-align: center;
+            padding: 8px;
+            transition: color 0.2s;
+        }
+        .btn-texto:hover { color: var(--text-main); }
 
         /* ---------- DIÁLOGOS ---------- */
         dialog {
-            width: min(90vw, 340px);
-            padding: 28px 24px;
-            border: 1px solid #3d3835;
-            border-radius: 16px;
-            background: var(--lino);
-            color: var(--petroleo);
-            font-family: inherit;
-            text-align: center;
+            width: calc(100% - 48px);
+            max-width: 360px;
+            margin: auto;
+            padding: 32px 24px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: var(--surface);
+            color: var(--text-main);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.6);
         }
-        dialog::backdrop { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); }
-        dialog h3 { margin: 0 0 10px; font-size: 24px; font-weight: 600; color: var(--laton); }
-        dialog p { margin: 0 0 24px; color: var(--texto-suave); font-size: 15px;}
-        .acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
-        .acciones .btn { height: 50px; }
-        #pinInput { letter-spacing: 0.5em; text-align: center; font-size: 24px; font-weight: 600; background: var(--concreto); }
-        .error-pin { margin: 10px 0 0 !important; font-size: 14px; color: var(--error) !important; }
-        .error-pin:empty { display: none; }
+        dialog::backdrop { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        dialog h3 { font-size: 20px; margin-bottom: 8px; }
+        dialog p { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+        
+        #pinInput {
+            letter-spacing: 0.5em; 
+            text-align: center; 
+            font-size: 24px; 
+            margin-bottom: 8px;
+            background: var(--bg);
+        }
+        
+        .acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
         .toast {
             position: fixed;
-            left: 50%;
             bottom: calc(24px + env(safe-area-inset-bottom, 0px));
-            transform: translate(-50%, 24px);
-            max-width: calc(100vw - 32px);
-            padding: 14px 20px;
-            border-radius: 12px;
-            background: var(--petroleo);
-            color: var(--concreto);
-            font-size: 15px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--text-main);
+            color: var(--bg);
+            padding: 14px 24px;
+            border-radius: 99px;
+            font-size: 14px;
             font-weight: 600;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            z-index: 10;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 100;
         }
-        .toast.visible { opacity: 1; transform: translate(-50%, 0); }
+        .toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
 
     <!-- PANTALLA DE INGRESO -->
     <main class="pantalla" id="pantallaLogin">
-        <!-- Revisa en GitHub el nombre exacto de tu logo (ej: logo.png, Logo.png, logo.JPG) y modifícalo aquí -->
-        <img src="logo.png" alt="Logo Toco Madera" class="logo-login">
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo Toco Madera" class="logo-img">
+            <div>
+                <h1 class="brand-title">Toco Madera</h1>
+                <span class="brand-subtitle">Coffee Lab</span>
+            </div>
+        </div>
         
-        <h1 class="login-titulo" data-marca>TOCO MADERA<br><span style="font-size: 20px; font-family: 'Instrument Sans', sans-serif; font-weight: 400; letter-spacing: 0.2em; color: var(--laton);">COFFEE LAB</span></h1>
         <p class="login-texto">Ingresa tu número y descubre cuántos sellos llevas acumulados.</p>
 
         <form id="formLogin" novalidate>
             <div class="campo">
-                <label for="inputTelefono">Número de Celular</label>
-                <input type="tel" id="inputTelefono" placeholder="Ej. 300 123 4567" autocomplete="tel" inputmode="tel" required>
+                <label for="inputTelefono">Número de celular</label>
+                <input type="tel" id="inputTelefono" placeholder="300 123 4567" autocomplete="tel" inputmode="tel" required>
             </div>
 
             <div class="campo" id="campoNombre" hidden>
-                <label for="inputNombre">Tu Nombre</label>
+                <label for="inputNombre">Tu nombre</label>
                 <input type="text" id="inputNombre" placeholder="Nombre y Apellido" autocomplete="name">
             </div>
 
@@ -418,47 +335,40 @@
             <button type="submit" class="btn" id="btnIngresar">Ver mi tarjeta</button>
         </form>
 
-        <button type="button" class="btn btn-borde" id="btnInstalar" hidden>Instalar Aplicación</button>
+        <button type="button" class="btn btn-ghost" id="btnInstalar" hidden>Instalar Aplicación</button>
     </main>
 
     <!-- PANTALLA DE LA TARJETA -->
-    <main class="pantalla" id="pantallaTarjeta" hidden>
-        <div class="colgante" id="colgante">
-            <div class="correa" aria-hidden="true"></div>
-            <div class="herraje" aria-hidden="true"></div>
-
-            <section class="credencial" aria-label="Tu tarjeta de sellos">
-                <div class="ranura" aria-hidden="true"></div>
-
-                <img src="logo.png" alt="Logo Toco Madera" class="logo-tarjeta">
-                
-                <h1 class="nombre" id="nombreCliente">Cargando…</h1>
-
-                <ul class="grid-sellos" id="contenedorSellos" aria-label="Sellos de tu tarjeta"></ul>
-
-                <div class="progreso" aria-live="polite">
-                    <p class="linea1">Llevas <span id="contadorTexto">0</span> de 9 sellos</p>
-                    <p class="linea2" id="mensajeFalta"></p>
-                </div>
-            </section>
+    <main class="pantalla pantalla-tarjeta" id="pantallaTarjeta" hidden>
+        
+        <div class="header-cliente">
+            <span class="bienvenido">Bienvenido de vuelta,</span>
+            <h1 class="nombre-cliente" id="nombreCliente">Cargando...</h1>
         </div>
 
-        <div class="zona-personal">
-            <!-- Botón Deslizante Interactivo (Swipe to Confirm) -->
+        <section class="credencial" id="colgante" aria-label="Tu tarjeta de sellos">
+            <ul class="grid-sellos" id="contenedorSellos" aria-label="Sellos de tu tarjeta"></ul>
+
+            <div class="progreso-text" aria-live="polite">
+                <p class="linea1">Llevas <span id="contadorTexto">0</span> de 9 sellos</p>
+                <p class="linea2" id="mensajeFalta"></p>
+            </div>
+        </section>
+
+        <div class="zona-barista">
+            <!-- Botón Deslizante Nativo (Swipe to Confirm) -->
             <div class="slider-container" id="sliderContainer">
                 <div class="slider-fill" id="sliderFill"></div>
                 <div class="slider-text" id="sliderText">Desliza para sellar</div>
                 <div class="slider-thumb" id="sliderThumb">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
                 </div>
             </div>
             
-            <p class="nota">Acción exclusiva para el barista.</p>
+            <button type="button" class="btn-texto" onclick="cerrarSesion()">Cerrar sesión</button>
         </div>
-
-        <button type="button" class="btn-texto salir" onclick="cerrarSesion()">Cerrar sesión</button>
     </main>
 
     <dialog id="dlgPin" aria-labelledby="tituloPin">
@@ -467,16 +377,16 @@
             <p>Ingresa el PIN de seguridad para confirmar el sello.</p>
             <label for="pinInput" style="display:none">PIN</label>
             <input type="password" id="pinInput" inputmode="numeric" autocomplete="off" maxlength="6" aria-describedby="errorPin">
-            <p class="error-pin" id="errorPin" role="alert"></p>
+            <p class="aviso error" id="errorPin" role="alert"></p>
             <div class="acciones">
-                <button type="button" class="btn btn-borde" id="pinCancelar">Cancelar</button>
+                <button type="button" class="btn btn-ghost" id="pinCancelar" style="margin: 0;">Cancelar</button>
                 <button type="submit" class="btn" id="btnConfirmarSello">Sellar</button>
             </div>
         </form>
     </dialog>
 
     <dialog id="dlgPremio" aria-labelledby="tituloPremio">
-        <h3 id="tituloPremio">¡Tarjeta Llena!</h3>
+        <h3 id="tituloPremio">¡Tarjeta Completada!</h3>
         <p>Es momento de entregar el premio. Al cerrar, la tarjeta se reiniciará automáticamente.</p>
         <button type="button" class="btn" id="premioListo" style="width: 100%;">Entendido</button>
     </dialog>
@@ -485,11 +395,7 @@
 
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbzN3QXKnaYLHyvl96b4A1ONO6sFT29F9eUfLIWfxqQY3hpo_pN4pLrYf1yQVJGKSIQ5/exec";
-
-        const CONFIG = {
-            nombreEspacio: "TOCO MADERA", 
-            pinPersonal: "1234"
-        };
+        const CONFIG = { nombreEspacio: "TOCO MADERA", pinPersonal: "1234" };
 
         const totalSellos = 9;
         let telefonoActual = "";
@@ -498,7 +404,8 @@
 
         const $ = (id) => document.getElementById(id);
 
-        const ICONO_SELLO = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        // Icono de check premium para sellos activos
+        const ICONO_SELLO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
 
         document.title = "Fidelización - " + CONFIG.nombreEspacio;
 
@@ -536,7 +443,7 @@
             }
 
             btn.disabled = true;
-            btn.textContent = "Verificando…";
+            btn.textContent = "Verificando...";
 
             try {
                 let url = `${API_URL}?telefono=${encodeURIComponent(telInput)}&accion=login`;
@@ -554,7 +461,7 @@
                     $('pantallaTarjeta').hidden = false;
                     window.scrollTo(0, 0);
 
-                    const colgante = $('colgante');
+                    const colgante = $('pantallaTarjeta');
                     colgante.classList.remove('entra');
                     void colgante.offsetWidth;
                     colgante.classList.add('entra');
@@ -591,7 +498,7 @@
         async function sumarSello() {
             const btn = $('btnConfirmarSello');
             btn.disabled = true;
-            btn.textContent = "Validando…";
+            btn.textContent = "Validando...";
 
             try {
                 let respuesta = await fetch(`${API_URL}?telefono=${encodeURIComponent(telefonoActual)}&accion=sumar`);
@@ -660,7 +567,7 @@
         $('formLogin').addEventListener('submit', iniciarSesion);
         $('formPin').addEventListener('submit', confirmarPin);$('pinCancelar').addEventListener('click', () => $('dlgPin').close());$('premioListo').addEventListener('click', () => $('dlgPremio').close());$('dlgPremio').addEventListener('close', () => renderizarTarjeta(0));
 
-        // --- LÓGICA DEL BOTÓN DESLIZANTE (Slider) ---
+        // --- LÓGICA DEL BOTÓN DESLIZANTE ---
         const sliderThumb = $('sliderThumb');
         const sliderContainer = $('sliderContainer');
         const sliderText = $('sliderText');
@@ -687,7 +594,7 @@
             
             sliderThumb.style.transform = `translateX(${currentX}px)`;
             sliderFill.style.width = `${currentX + 30}px`;
-            sliderText.style.opacity = 1 - (currentX / (maxDrag * 0.7)); // Se desvanece antes
+            sliderText.style.opacity = 1 - (currentX / (maxDrag * 0.7));
 
             if (currentX >= maxDrag) {
                 isDragging = false;
@@ -715,6 +622,7 @@
         document.addEventListener('mousemove', onDrag);
         document.addEventListener('touchmove', onDrag, {passive: false});
         document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('document', stopDrag);
         document.addEventListener('touchend', stopDrag);
 
         // Instalación PWA
