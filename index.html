@@ -6,36 +6,34 @@
     <title>Toco Madera - Coffee Lab</title>
 
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#09090b">
+    <meta name="theme-color" content="#191716">
 
-    <!-- Tipografía: Sans limpia para lectura, Monoespaciada para datos y números (Vibe "Lab") -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* Paleta Premium: Cold Luxury / Raw Material */
-            --bg: #09090b;          /* Zinc 950 - Off-black profundo */
-            --surface: #18181b;     /* Zinc 900 - Superficie mate */
-            --border: #27272a;      /* Zinc 800 - Bordes sutiles */
-            --text-main: #fafafa;   /* Blanco nítido */
-            --text-muted: #a1a1aa;  /* Zinc 400 - Texto secundario legibilidad WCAG AA */
-            --accent: #d95c41;      /* Terracota / Óxido - Contraste moderno */
-            --accent-hover: #c24e35;
-            --error: #ef4444;
-            --focus-ring: rgba(217, 92, 65, 0.25);
+            /* Paleta corporativa recuperada: Toco Madera */
+            --petroleo: #e8dcc8; 
+            --laton: #a67b51; 
+            --laton-texto: #c9a47e; 
+            --concreto: #191716; 
+            --lino: #24211f; 
+            --texto-suave: #9a9289;
+            --error: #e57373;
+            --focus-ring: rgba(166, 123, 81, 0.4);
             
-            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-            --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+            --font-sans: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+            --font-serif: 'Playfair Display', serif;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { -webkit-text-size-adjust: 100%; }
 
         body {
-            background: var(--bg);
-            color: var(--text-main);
+            background: var(--concreto);
+            color: var(--petroleo);
             font-family: var(--font-sans);
             font-size: 16px;
             line-height: 1.5;
@@ -48,53 +46,51 @@
         }
 
         [hidden] { display: none !important; }
-        :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
+        :focus-visible { outline: 2px solid var(--laton); outline-offset: 2px; border-radius: 8px; }
 
         .pantalla {
             width: 100%;
             max-width: 400px;
             margin: 0 auto;
-            padding: 48px 24px 24px;
+            padding: 40px 24px 24px;
             display: flex;
             flex-direction: column;
             flex: 1;
         }
 
         /* --- Header & Tipografía --- */
-        h1, h2, h3 { font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
-        
         .logo-container {
-            margin-bottom: 40px;
+            margin-bottom: 32px;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
-        .logo-img { height: 48px; width: auto; object-fit: contain; align-self: flex-start; }
-        .brand-title { font-size: 32px; color: var(--text-main); }
-        .brand-subtitle { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+        .logo-img { height: 50px; width: auto; object-fit: contain; align-self: flex-start; }
+        .brand-title { font-family: var(--font-serif); font-size: 34px; font-weight: 600; line-height: 1.1; color: var(--petroleo); }
+        .brand-subtitle { font-size: 13px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--laton); font-weight: 500; }
 
         /* ---------- INGRESO ---------- */
-        .login-texto { color: var(--text-muted); margin-bottom: 32px; font-size: 15px; }
+        .login-texto { color: var(--texto-suave); margin-bottom: 28px; font-size: 15px; }
         
-        .campo { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
-        .campo label { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+        .campo { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+        .campo label { font-size: 13px; font-weight: 500; color: var(--petroleo); }
 
         input[type="tel"], input[type="text"], input[type="password"] {
             width: 100%;
             height: 56px;
             padding: 0 16px;
-            border: 1px solid var(--border);
+            border: 1px solid #3d3835;
             border-radius: 12px;
-            background: var(--surface);
-            color: var(--text-main);
-            font-family: var(--font-mono); /* Números en monoespacio para precisión */
-            font-size: 16px;
+            background: var(--lino);
+            color: var(--petroleo);
+            font-family: inherit;
+            font-size: 17px;
             transition: all 0.2s ease;
         }
-        input::placeholder { color: #52525b; font-family: var(--font-sans); }
-        input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--focus-ring); background: var(--bg); }
+        input::placeholder { color: #6b635d; }
+        input:focus { outline: none; border-color: var(--laton); box-shadow: 0 0 0 4px var(--focus-ring); background: #2a2724; }
 
-        .aviso { font-size: 14px; color: var(--text-muted); margin: -12px 0 24px; min-height: 20px; }
+        .aviso { font-size: 14px; color: var(--texto-suave); margin: -6px 0 20px; min-height: 20px; }
         .aviso.error { color: var(--error); }
 
         .btn {
@@ -102,10 +98,10 @@
             height: 56px;
             border: none;
             border-radius: 12px;
-            background: var(--text-main);
-            color: var(--bg);
-            font-family: var(--font-sans);
-            font-size: 15px;
+            background: var(--petroleo);
+            color: var(--concreto);
+            font-family: inherit;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.1s, background 0.2s;
@@ -113,12 +109,12 @@
             align-items: center;
             justify-content: center;
         }
-        .btn:hover { background: #e4e4e7; }
+        .btn:hover { background: #d1c4b1; }
         .btn:active { transform: scale(0.98); }
-        .btn:disabled { background: var(--surface); color: #52525b; cursor: not-allowed; transform: none; border: 1px solid var(--border); }
+        .btn:disabled { background: #3d3835; color: #7a7069; cursor: not-allowed; transform: none; }
         
-        .btn-ghost { background: transparent; color: var(--text-main); border: 1px solid var(--border); margin-top: 16px; }
-        .btn-ghost:hover { background: var(--surface); }
+        .btn-ghost { background: transparent; color: var(--petroleo); border: 1.5px solid var(--petroleo); margin-top: 16px; }
+        .btn-ghost:hover { background: rgba(232, 220, 200, 0.08); }
 
         /* ---------- TARJETA DIGITAL ---------- */
         .pantalla-tarjeta { opacity: 0; }
@@ -129,51 +125,51 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .header-cliente { margin-bottom: 32px; }
-        .bienvenido { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; display: block; }
-        .nombre-cliente { font-size: 28px; line-height: 1.2; }
+        .header-cliente { margin-bottom: 24px; }
+        .bienvenido { font-size: 13px; color: var(--texto-suave); margin-bottom: 4px; display: block; }
+        .nombre-cliente { font-family: var(--font-serif); font-size: 26px; line-height: 1.2; color: var(--petroleo); }
 
         .credencial {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 32px;
-            /* Efecto de materialidad digital: sombra profunda y borde interno sutil */
-            box-shadow: 0 24px 48px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
-            margin-bottom: 32px;
+            background: var(--lino);
+            border: 1px solid #3d3835;
+            border-radius: 20px;
+            padding: 28px 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05);
+            margin-bottom: 24px;
         }
 
         .grid-sellos {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
+            gap: 14px;
             list-style: none;
         }
 
         .sello {
             aspect-ratio: 1;
             border-radius: 50%;
-            border: 1px solid var(--border);
-            background: var(--bg);
+            background: #2f2b28;
+            border: 1px solid #3d3835;
             display: grid;
             place-items: center;
-            font-family: var(--font-mono);
-            font-size: 16px;
-            color: #52525b;
+            font-family: var(--font-serif);
+            font-size: 18px;
+            color: #6b635d;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .sello.activo {
-            border-color: var(--accent);
-            background: var(--accent);
-            color: var(--text-main);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 4px 12px rgba(217, 92, 65, 0.25);
+            background: var(--laton);
+            color: var(--concreto);
+            border-color: var(--laton);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3), inset 0 0 0 3px var(--laton), inset 0 0 0 4px rgba(25, 23, 22, 0.2);
         }
 
-        .sello.premio { border-color: var(--text-muted); border-style: dashed; }
-        .sello.activo.premio { border-color: var(--accent); border-style: solid; }
+        .sello.premio { border: 1.5px dashed var(--laton); }
+        .sello.activo.premio { border-style: solid; }
 
-        .sello svg { width: 22px; height: 22px; }
+        .sello svg { width: 50%; height: 50%; }
 
         .sello.nuevo { animation: popSello 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
         @keyframes popSello {
@@ -182,26 +178,27 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        .progreso-text { margin-top: 32px; text-align: center; }
-        .progreso-text .linea1 { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
-        .progreso-text .linea2 { font-size: 13px; color: var(--text-muted); }
+        .progreso-text { margin-top: 24px; text-align: center; }
+        .progreso-text .linea1 { font-size: 16px; font-weight: 600; color: var(--petroleo); margin-bottom: 4px; }
+        .progreso-text .linea2 { font-size: 13px; color: var(--texto-suave); }
 
-        /* ---------- SLIDER DE VALIDACIÓN (Swipe to Confirm Premium) ---------- */
+        /* ---------- SLIDER DE VALIDACIÓN (Swipe to Confirm) ---------- */
         .zona-barista {
             margin-top: auto;
-            padding-top: 24px;
+            padding-top: 16px;
         }
 
         .slider-container {
             position: relative;
             width: 100%;
             height: 64px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 99px; /* Forma de cápsula limpia */
+            background: var(--lino);
+            border: 1px solid #3d3835;
+            border-radius: 16px;
             overflow: hidden;
             touch-action: none;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
         }
         .slider-text {
             position: absolute;
@@ -209,9 +206,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-muted);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--texto-suave);
             pointer-events: none;
             z-index: 1;
             transition: opacity 0.3s;
@@ -222,15 +219,15 @@
             left: 4px;
             width: 54px;
             height: 54px;
-            background: var(--text-main);
-            color: var(--bg);
-            border-radius: 50%;
+            background: var(--laton);
+            color: var(--concreto);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 3;
             cursor: grab;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .slider-thumb:active { cursor: grabbing; transform: scale(0.95); }
@@ -238,17 +235,17 @@
             position: absolute;
             top: 0; left: 0; bottom: 0;
             width: 0;
-            background: rgba(217, 92, 65, 0.15); /* Rastro sutil en lugar de relleno sólido */
+            background: rgba(166, 123, 81, 0.2);
             z-index: 2;
             transition: width 0.4s ease;
         }
-        .slider-thumb svg { width: 20px; height: 20px; pointer-events: none; }
+        .slider-thumb svg { width: 22px; height: 22px; pointer-events: none; }
 
         .btn-texto {
             background: none;
             border: none;
-            color: var(--text-muted);
-            font-size: 13px;
+            color: var(--texto-suave);
+            font-size: 14px;
             cursor: pointer;
             text-decoration: underline;
             text-underline-offset: 4px;
@@ -257,30 +254,30 @@
             padding: 8px;
             transition: color 0.2s;
         }
-        .btn-texto:hover { color: var(--text-main); }
+        .btn-texto:hover { color: var(--petroleo); }
 
         /* ---------- DIÁLOGOS ---------- */
         dialog {
             width: calc(100% - 48px);
-            max-width: 360px;
+            max-width: 340px;
             margin: auto;
-            padding: 32px 24px;
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            background: var(--surface);
-            color: var(--text-main);
-            box-shadow: 0 24px 48px rgba(0,0,0,0.6);
+            padding: 28px 24px;
+            border: 1px solid #3d3835;
+            border-radius: 16px;
+            background: var(--lino);
+            color: var(--petroleo);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
-        dialog::backdrop { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-        dialog h3 { font-size: 20px; margin-bottom: 8px; }
-        dialog p { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+        dialog::backdrop { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); }
+        dialog h3 { font-family: var(--font-serif); font-size: 22px; color: var(--laton); margin-bottom: 8px; }
+        dialog p { color: var(--texto-suave); font-size: 14px; margin-bottom: 20px; }
         
         #pinInput {
             letter-spacing: 0.5em; 
             text-align: center; 
             font-size: 24px; 
             margin-bottom: 8px;
-            background: var(--bg);
+            background: var(--concreto);
         }
         
         .acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -290,16 +287,16 @@
             bottom: calc(24px + env(safe-area-inset-bottom, 0px));
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: var(--text-main);
-            color: var(--bg);
-            padding: 14px 24px;
-            border-radius: 99px;
-            font-size: 14px;
+            background: var(--petroleo);
+            color: var(--concreto);
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 15px;
             font-weight: 600;
             opacity: 0;
             pointer-events: none;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
             z-index: 100;
         }
         .toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -312,8 +309,8 @@
         <div class="logo-container">
             <img src="logo.png" alt="Logo Toco Madera" class="logo-img">
             <div>
-                <h1 class="brand-title">Toco Madera</h1>
-                <span class="brand-subtitle">Coffee Lab</span>
+                <h1 class="brand-title">TOCO MADERA</h1>
+                <span class="brand-subtitle">COFFEE LAB</span>
             </div>
         </div>
         
@@ -321,12 +318,12 @@
 
         <form id="formLogin" novalidate>
             <div class="campo">
-                <label for="inputTelefono">Número de celular</label>
-                <input type="tel" id="inputTelefono" placeholder="300 123 4567" autocomplete="tel" inputmode="tel" required>
+                <label for="inputTelefono">Número de Celular</label>
+                <input type="tel" id="inputTelefono" placeholder="Ej. 300 123 4567" autocomplete="tel" inputmode="tel" required>
             </div>
 
             <div class="campo" id="campoNombre" hidden>
-                <label for="inputNombre">Tu nombre</label>
+                <label for="inputNombre">Tu Nombre</label>
                 <input type="text" id="inputNombre" placeholder="Nombre y Apellido" autocomplete="name">
             </div>
 
@@ -346,7 +343,7 @@
             <h1 class="nombre-cliente" id="nombreCliente">Cargando...</h1>
         </div>
 
-        <section class="credencial" id="colgante" aria-label="Tu tarjeta de sellos">
+        <section class="credencial" aria-label="Tu tarjeta de sellos">
             <ul class="grid-sellos" id="contenedorSellos" aria-label="Sellos de tu tarjeta"></ul>
 
             <div class="progreso-text" aria-live="polite">
@@ -356,7 +353,7 @@
         </section>
 
         <div class="zona-barista">
-            <!-- Botón Deslizante Nativo (Swipe to Confirm) -->
+            <!-- Botón Deslizante (Swipe to Confirm) -->
             <div class="slider-container" id="sliderContainer">
                 <div class="slider-fill" id="sliderFill"></div>
                 <div class="slider-text" id="sliderText">Desliza para sellar</div>
@@ -386,7 +383,7 @@
     </dialog>
 
     <dialog id="dlgPremio" aria-labelledby="tituloPremio">
-        <h3 id="tituloPremio">¡Tarjeta Completada!</h3>
+        <h3 id="tituloPremio">¡Tarjeta Llena!</h3>
         <p>Es momento de entregar el premio. Al cerrar, la tarjeta se reiniciará automáticamente.</p>
         <button type="button" class="btn" id="premioListo" style="width: 100%;">Entendido</button>
     </dialog>
@@ -404,8 +401,7 @@
 
         const $ = (id) => document.getElementById(id);
 
-        // Icono de check premium para sellos activos
-        const ICONO_SELLO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+        const ICONO_SELLO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
 
         document.title = "Fidelización - " + CONFIG.nombreEspacio;
 
@@ -622,10 +618,8 @@
         document.addEventListener('mousemove', onDrag);
         document.addEventListener('touchmove', onDrag, {passive: false});
         document.addEventListener('mouseup', stopDrag);
-        document.addEventListener('document', stopDrag);
         document.addEventListener('touchend', stopDrag);
 
-        // Instalación PWA
         let eventoInstalacion;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
