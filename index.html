@@ -297,6 +297,60 @@
         .nota { margin: 10px 0 0; font-size: 13px; color: var(--texto-suave); text-align: center; }
         .salir { display: block; margin: 24px auto 0; }
 
+        /* ---------- SLIDER DE VALIDACIÓN (Swipe to Confirm) ---------- */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 64px;
+            background: var(--lino);
+            border: 1px solid #3d3835;
+            border-radius: 16px;
+            overflow: hidden;
+            touch-action: none; /* Previene scroll al deslizar */
+            margin-top: 15px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+        }
+        .slider-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--texto-suave);
+            pointer-events: none;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+        .slider-thumb {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 54px;
+            height: 54px;
+            background: var(--laton);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--concreto);
+            z-index: 2;
+            cursor: grab;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .slider-thumb:active { cursor: grabbing; }
+        .slider-fill {
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            width: 0;
+            background: rgba(166, 123, 81, 0.15);
+            z-index: 0;
+            transition: width 0.3s ease;
+        }
+        .slider-thumb svg { width: 24px; height: 24px; pointer-events: none;}
+
         /* ---------- DIÁLOGOS ---------- */
         dialog {
             width: min(90vw, 340px);
@@ -342,7 +396,7 @@
 
     <!-- PANTALLA DE INGRESO -->
     <main class="pantalla" id="pantallaLogin">
-        <!-- Logo en la pantalla principal -->
+        <!-- Revisa en GitHub el nombre exacto de tu logo (ej: logo.png, Logo.png, logo.JPG) y modifícalo aquí -->
         <img src="logo.png" alt="Logo Toco Madera" class="logo-login">
         
         <h1 class="login-titulo" data-marca>TOCO MADERA<br><span style="font-size: 20px; font-family: 'Instrument Sans', sans-serif; font-weight: 400; letter-spacing: 0.2em; color: var(--laton);">COFFEE LAB</span></h1>
@@ -376,7 +430,6 @@
             <section class="credencial" aria-label="Tu tarjeta de sellos">
                 <div class="ranura" aria-hidden="true"></div>
 
-                <!-- Logo en la tarjeta -->
                 <img src="logo.png" alt="Logo Toco Madera" class="logo-tarjeta">
                 
                 <h1 class="nombre" id="nombreCliente">Cargando…</h1>
@@ -391,8 +444,18 @@
         </div>
 
         <div class="zona-personal">
-            <button type="button" class="btn btn-borde" id="btnSumar" onclick="abrirPin()">Validar Visita</button>
-            <p class="nota">Botón exclusivo para el barista.</p>
+            <!-- Botón Deslizante Interactivo (Swipe to Confirm) -->
+            <div class="slider-container" id="sliderContainer">
+                <div class="slider-fill" id="sliderFill"></div>
+                <div class="slider-text" id="sliderText">Desliza para sellar</div>
+                <div class="slider-thumb" id="sliderThumb">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+            </div>
+            
+            <p class="nota">Acción exclusiva para el barista.</p>
         </div>
 
         <button type="button" class="btn-texto salir" onclick="cerrarSesion()">Cerrar sesión</button>
@@ -401,13 +464,13 @@
     <dialog id="dlgPin" aria-labelledby="tituloPin">
         <form id="formPin" novalidate>
             <h3 id="tituloPin">Barista</h3>
-            <p>Ingresa el PIN de seguridad para sellar la tarjeta.</p>
+            <p>Ingresa el PIN de seguridad para confirmar el sello.</p>
             <label for="pinInput" style="display:none">PIN</label>
             <input type="password" id="pinInput" inputmode="numeric" autocomplete="off" maxlength="6" aria-describedby="errorPin">
             <p class="error-pin" id="errorPin" role="alert"></p>
             <div class="acciones">
                 <button type="button" class="btn btn-borde" id="pinCancelar">Cancelar</button>
-                <button type="submit" class="btn">Sellar</button>
+                <button type="submit" class="btn" id="btnConfirmarSello">Sellar</button>
             </div>
         </form>
     </dialog>
@@ -526,7 +589,7 @@
         }
 
         async function sumarSello() {
-            const btn = $('btnSumar');
+            const btn = $('btnConfirmarSello');
             btn.disabled = true;
             btn.textContent = "Validando…";
 
@@ -550,7 +613,7 @@
                 mostrarToast("Error de conexión al sumar el sello.");
             } finally {
                 btn.disabled = false;
-                btn.textContent = "Validar Visita";
+                btn.textContent = "Sellar";
             }
         }
 
@@ -568,8 +631,6 @@
                     + (lleno ? ' activo' : '')
                     + (i === totalSellos ? ' premio' : '')
                     + (i === indiceNuevo ? ' nuevo' : '');
-                li.setAttribute('aria-label',
-                    `Sello ${i}${i === totalSellos ? ' (premio)' : ''}: ${lleno ? 'sumado' : 'pendiente'}`);
                 li.innerHTML = lleno ? ICONO_SELLO : `<span aria-hidden="true">${i}</span>`;
                 contenedor.appendChild(li);
             }
@@ -599,6 +660,64 @@
         $('formLogin').addEventListener('submit', iniciarSesion);
         $('formPin').addEventListener('submit', confirmarPin);$('pinCancelar').addEventListener('click', () => $('dlgPin').close());$('premioListo').addEventListener('click', () => $('dlgPremio').close());$('dlgPremio').addEventListener('close', () => renderizarTarjeta(0));
 
+        // --- LÓGICA DEL BOTÓN DESLIZANTE (Slider) ---
+        const sliderThumb = $('sliderThumb');
+        const sliderContainer = $('sliderContainer');
+        const sliderText = $('sliderText');
+        const sliderFill = $('sliderFill');
+        let isDragging = false;
+        let startX = 0;
+        let currentX = 0;
+        
+        const getMaxDrag = () => sliderContainer.offsetWidth - sliderThumb.offsetWidth - 8;
+        let maxDrag = getMaxDrag();
+        window.addEventListener('resize', () => { maxDrag = getMaxDrag(); });
+
+        const startDrag = (e) => {
+            isDragging = true;
+            startX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+            sliderThumb.style.transition = 'none';
+            sliderFill.style.transition = 'none';
+        };
+
+        const onDrag = (e) => {
+            if (!isDragging) return;
+            const x = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+            currentX = Math.min(Math.max(0, x - startX), maxDrag);
+            
+            sliderThumb.style.transform = `translateX(${currentX}px)`;
+            sliderFill.style.width = `${currentX + 30}px`;
+            sliderText.style.opacity = 1 - (currentX / (maxDrag * 0.7)); // Se desvanece antes
+
+            if (currentX >= maxDrag) {
+                isDragging = false;
+                resetSlider();
+                abrirPin();
+            }
+        };
+
+        const stopDrag = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            resetSlider();
+        };
+
+        const resetSlider = () => {
+            sliderThumb.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            sliderFill.style.transition = 'width 0.4s ease';
+            sliderThumb.style.transform = `translateX(0px)`;
+            sliderFill.style.width = `0px`;
+            sliderText.style.opacity = '1';
+        };
+
+        sliderThumb.addEventListener('mousedown', startDrag);
+        sliderThumb.addEventListener('touchstart', startDrag, {passive: true});
+        document.addEventListener('mousemove', onDrag);
+        document.addEventListener('touchmove', onDrag, {passive: false});
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('touchend', stopDrag);
+
+        // Instalación PWA
         let eventoInstalacion;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -624,11 +743,8 @@
                 recargado = true;
                 window.location.reload();
             });
-
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(err => {
-                    console.log('Error al registrar Service Worker', err);
-                });
+                navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' });
             });
         }
     </script>
