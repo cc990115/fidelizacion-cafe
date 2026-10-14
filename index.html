@@ -22,26 +22,16 @@
             --texto-suave: #9a9289;
             --error: #e57373;
             --focus-ring: rgba(166, 123, 81, 0.4);
-            --borde: #3d3835;
-            --borde-suave: rgba(232, 220, 200, 0.08);
             
             --font-sans: 'Instrument Sans', system-ui, -apple-system, sans-serif;
             --font-serif: 'Playfair Display', serif;
-
-            --radio-md: 16px;
-            --radio-lg: 24px;
-            --sombra-suave: 0 10px 30px rgba(0,0,0,0.35);
-            --sombra-tarjeta: 0 24px 48px rgba(0,0,0,0.55), inset 0 1px 1px rgba(255,255,255,0.05);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { -webkit-text-size-adjust: 100%; }
 
         body {
-            background:
-                radial-gradient(1200px 500px at 50% -10%, rgba(166, 123, 81, 0.10), transparent 60%),
-                radial-gradient(800px 400px at 100% 100%, rgba(166, 123, 81, 0.05), transparent 55%),
-                var(--concreto);
+            background: var(--concreto);
             color: var(--petroleo);
             font-family: var(--font-sans);
             font-size: 16px;
@@ -61,7 +51,7 @@
             width: 100%;
             max-width: 400px;
             margin: 0 auto;
-            padding: 48px 24px 24px;
+            padding: 40px 24px 24px;
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -69,7 +59,7 @@
 
         /* --- Header & Integración del Logo --- */
         .logo-container {
-            margin-bottom: 28px;
+            margin-bottom: 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -77,76 +67,51 @@
         }
         
         .logo-img { 
-            height: 72px; 
+            height: 64px; 
             width: auto; 
             object-fit: contain; 
-            margin-bottom: 18px;
-            /* Puntas redondeadas para el logo */
-            border-radius: 18px;
-            overflow: hidden;
-            padding: 0;
-            background: transparent;
-            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.45));
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .logo-img:hover { transform: translateY(-2px) scale(1.02); }
-
-        /* Decoración: línea fina latón bajo el logo */
-        .logo-decor {
-            width: 56px;
-            height: 2px;
-            margin-bottom: 18px;
-            background: linear-gradient(90deg, transparent, var(--laton), transparent);
-            border-radius: 2px;
+            margin-bottom: 16px;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+            background: transparent; 
         }
 
         .brand-title { 
             font-family: var(--font-serif); 
-            font-size: 34px; 
+            font-size: 32px; 
             font-weight: 600; 
             line-height: 1.1; 
             color: var(--petroleo);
-            letter-spacing: 0.05em;
-            background: linear-gradient(180deg, #f3ead9 0%, var(--petroleo) 60%, #cbbda6 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.03em;
         }
         .brand-subtitle { 
             font-size: 13px; 
             text-transform: uppercase; 
-            letter-spacing: 0.35em; 
-            color: var(--laton-texto); 
+            letter-spacing: 0.25em; 
+            color: var(--laton); 
             font-weight: 500; 
-            margin-top: 6px;
-            padding-left: 0.35em; /* compensa el letter-spacing */
+            margin-top: 4px;
         }
 
         /* ---------- INGRESO ---------- */
-        .login-texto { color: var(--texto-suave); margin-bottom: 32px; font-size: 15px; text-align: center; line-height: 1.6; }
+        .login-texto { color: var(--texto-suave); margin-bottom: 32px; font-size: 15px; text-align: center; }
         
         .campo { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-        .campo label { font-size: 13px; font-weight: 500; color: var(--petroleo); letter-spacing: 0.02em; }
+        .campo label { font-size: 13px; font-weight: 500; color: var(--petroleo); }
 
         input[type="tel"], input[type="text"], input[type="password"] {
             width: 100%;
             height: 56px;
             padding: 0 20px;
-            border: 1px solid var(--borde);
-            border-radius: var(--radio-md);
-            background: linear-gradient(180deg, #2a2724 0%, var(--lino) 100%);
+            border: 1px solid #3d3835;
+            border-radius: 16px;
+            background: var(--lino);
             color: var(--petroleo);
             font-family: inherit;
             font-size: 17px;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            transition: all 0.2s ease;
         }
         input::placeholder { color: #6b635d; }
-        input:focus {
-            outline: none;
-            border-color: var(--laton);
-            box-shadow: 0 0 0 4px var(--focus-ring), 0 6px 18px rgba(0,0,0,0.25);
-            background: #2a2724;
-        }
+        input:focus { outline: none; border-color: var(--laton); box-shadow: 0 0 0 4px var(--focus-ring); background: #2a2724; }
 
         .aviso { font-size: 14px; color: var(--texto-suave); margin: -6px 0 20px; min-height: 20px; text-align: center; }
         .aviso.error { color: var(--error); }
@@ -155,32 +120,25 @@
             width: 100%;
             height: 56px;
             border: none;
-            border-radius: var(--radio-md);
-            background: linear-gradient(180deg, #f2e8d7 0%, var(--petroleo) 55%, #d8cab3 100%);
+            border-radius: 16px;
+            background: var(--petroleo);
             color: var(--concreto);
             font-family: inherit;
             font-size: 16px;
             font-weight: 600;
-            letter-spacing: 0.01em;
             cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.2s, filter 0.2s;
+            transition: transform 0.1s, background 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 22px rgba(0,0,0,0.35), inset 0 1px 1px rgba(255,255,255,0.6);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
         }
-        .btn:hover { filter: brightness(1.04); box-shadow: 0 10px 26px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.6); }
+        .btn:hover { background: #d1c4b1; }
         .btn:active { transform: scale(0.98); }
         .btn:disabled { background: #3d3835; color: #7a7069; cursor: not-allowed; transform: none; box-shadow: none; }
         
-        .btn-ghost {
-            background: rgba(232, 220, 200, 0.03);
-            color: var(--petroleo);
-            border: 1.5px solid var(--borde);
-            margin-top: 16px;
-            box-shadow: none;
-        }
-        .btn-ghost:hover { background: rgba(232, 220, 200, 0.07); border-color: var(--petroleo); filter: none; box-shadow: none; }
+        .btn-ghost { background: transparent; color: var(--petroleo); border: 1.5px solid #3d3835; margin-top: 16px; box-shadow: none; }
+        .btn-ghost:hover { background: rgba(232, 220, 200, 0.05); border-color: var(--petroleo); }
 
         /* ---------- TARJETA DIGITAL ---------- */
         .pantalla-tarjeta { opacity: 0; }
@@ -192,34 +150,16 @@
         }
 
         .header-cliente { margin-bottom: 24px; text-align: center; }
-        .bienvenido { font-size: 13px; color: var(--texto-suave); margin-bottom: 4px; display: block; letter-spacing: 0.04em; }
-        .nombre-cliente {
-            font-family: var(--font-serif);
-            font-size: 28px;
-            line-height: 1.2;
-            color: var(--laton-texto);
-        }
+        .bienvenido { font-size: 13px; color: var(--texto-suave); margin-bottom: 4px; display: block; }
+        .nombre-cliente { font-family: var(--font-serif); font-size: 26px; line-height: 1.2; color: var(--petroleo); }
 
         .credencial {
-            background:
-                radial-gradient(600px 200px at 50% 0%, rgba(166, 123, 81, 0.10), transparent 70%),
-                linear-gradient(180deg, #2a2724 0%, var(--lino) 100%);
-            border: 1px solid var(--borde);
-            border-radius: var(--radio-lg);
+            background: var(--lino);
+            border: 1px solid #3d3835;
+            border-radius: 24px;
             padding: 32px 20px;
-            box-shadow: var(--sombra-tarjeta);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05);
             margin-bottom: 24px;
-            position: relative;
-            overflow: hidden;
-        }
-        /* Brillo superior sutil tipo tarjeta premium */
-        .credencial::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 15%;
-            right: 15%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(201, 164, 126, 0.6), transparent);
         }
 
         .grid-sellos {
@@ -232,22 +172,22 @@
         .sello {
             aspect-ratio: 1;
             border-radius: 50%;
-            background: radial-gradient(circle at 35% 30%, #38332f, #2b2724 70%);
-            border: 1px solid var(--borde);
+            background: #2f2b28;
+            border: 1px solid #3d3835;
             display: grid;
             place-items: center;
             font-family: var(--font-serif);
             font-size: 18px;
             color: #6b635d;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.45);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .sello.activo {
-            background: radial-gradient(circle at 35% 30%, #c39a6d, var(--laton) 65%, #8d6844 100%);
+            background: var(--laton);
             color: var(--concreto);
-            border-color: var(--laton-texto);
-            box-shadow: 0 6px 14px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.35), inset 0 0 0 3px var(--laton), inset 0 0 0 4px rgba(25, 23, 22, 0.2);
+            border-color: var(--laton);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3), inset 0 0 0 3px var(--laton), inset 0 0 0 4px rgba(25, 23, 22, 0.2);
         }
 
         .sello.premio { border: 1.5px dashed var(--laton); }
@@ -276,13 +216,13 @@
             position: relative;
             width: 100%;
             height: 64px;
-            background: linear-gradient(180deg, #2a2724 0%, var(--lino) 100%);
-            border: 1px solid var(--borde);
+            background: var(--lino);
+            border: 1px solid #3d3835;
             border-radius: 20px;
             overflow: hidden;
             touch-action: none;
             margin-bottom: 16px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.45);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
         }
         .slider-text {
             position: absolute;
@@ -292,7 +232,6 @@
             justify-content: center;
             font-size: 15px;
             font-weight: 600;
-            letter-spacing: 0.03em;
             color: var(--texto-suave);
             pointer-events: none;
             z-index: 1;
@@ -304,7 +243,7 @@
             left: 4px;
             width: 54px;
             height: 54px;
-            background: linear-gradient(180deg, #c39a6d, var(--laton));
+            background: var(--laton);
             color: var(--concreto);
             border-radius: 16px;
             display: flex;
@@ -312,7 +251,7 @@
             justify-content: center;
             z-index: 3;
             cursor: grab;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .slider-thumb:active { cursor: grabbing; transform: scale(0.95); }
@@ -320,7 +259,7 @@
             position: absolute;
             top: 0; left: 0; bottom: 0;
             width: 0;
-            background: linear-gradient(90deg, rgba(166, 123, 81, 0.10), rgba(166, 123, 81, 0.28));
+            background: rgba(166, 123, 81, 0.2);
             z-index: 2;
             transition: width 0.4s ease;
         }
@@ -347,16 +286,14 @@
             max-width: 340px;
             margin: auto;
             padding: 32px 24px;
-            border: 1px solid var(--borde);
-            border-radius: var(--radio-lg);
-            background:
-                radial-gradient(500px 160px at 50% 0%, rgba(166, 123, 81, 0.12), transparent 70%),
-                linear-gradient(180deg, #2a2724 0%, var(--lino) 100%);
+            border: 1px solid #3d3835;
+            border-radius: 24px;
+            background: var(--lino);
             color: var(--petroleo);
             box-shadow: 0 24px 48px rgba(0,0,0,0.6);
         }
         dialog::backdrop { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(6px); }
-        dialog h3 { font-family: var(--font-serif); font-size: 22px; color: var(--laton-texto); margin-bottom: 8px; text-align: center; }
+        dialog h3 { font-family: var(--font-serif); font-size: 22px; color: var(--laton); margin-bottom: 8px; text-align: center; }
         dialog p { color: var(--texto-suave); font-size: 14px; margin-bottom: 24px; text-align: center; }
         
         #pinInput {
@@ -365,7 +302,7 @@
             font-size: 24px; 
             margin-bottom: 12px;
             background: var(--concreto);
-            border-radius: var(--radio-md);
+            border-radius: 16px;
         }
         
         .acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -375,24 +312,20 @@
             bottom: calc(24px + env(safe-area-inset-bottom, 0px));
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: linear-gradient(180deg, #f2e8d7, var(--petroleo));
+            background: var(--petroleo);
             color: var(--concreto);
             padding: 14px 24px;
-            border-radius: 18px;
+            border-radius: 16px;
             font-size: 15px;
             font-weight: 600;
             opacity: 0;
             pointer-events: none;
             transition: all 0.3s ease;
-            box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
             z-index: 100;
+            text-align: center;
         }
         .toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-        /* Accesibilidad: movimiento reducido */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-        }
     </style>
 </head>
 <body>
@@ -401,7 +334,6 @@
     <main class="pantalla" id="pantallaLogin">
         <div class="logo-container">
             <img src="logo.png" alt="Logo Toco Madera" class="logo-img">
-            <div class="logo-decor" aria-hidden="true"></div>
             <h1 class="brand-title">TOCO MADERA</h1>
             <span class="brand-subtitle">COFFEE LAB</span>
         </div>
@@ -486,13 +418,19 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbzN3QXKnaYLHyvl96b4A1ONO6sFT29F9eUfLIWfxqQY3hpo_pN4pLrYf1yQVJGKSIQ5/exec";
         const CONFIG = { nombreEspacio: "TOCO MADERA", pinPersonal: "1234" };
 
+        // --- SEDES Y COORDENADAS PARA GPS ---
+        const LOCALES = [
+            { nombre: "Álamos", lat: 4.8039, lng: -75.6811 },
+            { nombre: "Circunvalar", lat: 4.8115, lng: -75.6841 }
+        ];
+        const RADIO_CERCA_METROS = 150; // Margen de 150 metros
+
         const totalSellos = 9;
         let telefonoActual = "";
         let sellosActuales = 0;
         let nuevoUsuario = false;
 
         const $ = (id) => document.getElementById(id);
-
         const ICONO_SELLO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
 
         document.title = "Fidelización - " + CONFIG.nombreEspacio;
@@ -503,7 +441,7 @@
             t.textContent = mensaje;
             t.classList.add('visible');
             clearTimeout(temporizadorToast);
-            temporizadorToast = setTimeout(() => t.classList.remove('visible'), 2600);
+            temporizadorToast = setTimeout(() => t.classList.remove('visible'), 3000);
         }
 
         function avisoLogin(mensaje, esError = false) {
@@ -516,6 +454,45 @@
             return nuevoUsuario ? "Crear mi tarjeta" : "Ver mi tarjeta";
         }
 
+        // --- LÓGICA DE GPS ---
+        function calcularDistanciaMetros(lat1, lon1, lat2, lon2) {
+            const R = 6371e3; 
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        function verificarProximidadLocal() {
+            if (!navigator.geolocation) return;
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const usuarioLat = position.coords.latitude;
+                    const usuarioLng = position.coords.longitude;
+
+                    for (let local of LOCALES) {
+                        const distancia = calcularDistanciaMetros(usuarioLat, usuarioLng, local.lat, local.lng);
+                        
+                        if (distancia <= RADIO_CERCA_METROS) {
+                            setTimeout(() => {
+                                mostrarToast(`¡Qué bueno verte por Toco Madera ${local.nombre}!`);
+                            }, 1500); // Pequeño retraso para que el usuario alcance a ver la animación de la tarjeta
+                            break;
+                        }
+                    }
+                },
+                (error) => {
+                    console.log("Geolocalización denegada o no disponible.");
+                },
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            );
+        }
+
+        // --- INICIAR SESIÓN ---
         async function iniciarSesion(e) {
             e.preventDefault();
             const telInput = $('inputTelefono').value.trim();
@@ -553,6 +530,9 @@
                     colgante.classList.remove('entra');
                     void colgante.offsetWidth;
                     colgante.classList.add('entra');
+
+                    // Llamamos a la función GPS al abrir la tarjeta
+                    verificarProximidadLocal();
                 } else {
                     nuevoUsuario = true;
                     $('campoNombre').hidden = false;
@@ -567,6 +547,7 @@
             }
         }
 
+        // --- LÓGICA DE SELLOS ---
         function abrirPin() {
             $('pinInput').value = "";
             $('errorPin').textContent = "";
@@ -599,7 +580,7 @@
                         setTimeout(() => $('dlgPremio').showModal(), 900);
                     } else {
                         renderizarTarjeta(sellos, sellos);
-                        mostrarToast("¡Sello sumado!");
+                        mostrarToast("¡Sello sumado exitosamente!");
                     }
                 } else {
                     mostrarToast(datos.mensaje || "No se pudo sumar el sello.");
@@ -712,6 +693,7 @@
         document.addEventListener('mouseup', stopDrag);
         document.addEventListener('touchend', stopDrag);
 
+        // --- INSTALACIÓN PWA ---
         let eventoInstalacion;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
