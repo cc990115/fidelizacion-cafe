@@ -206,11 +206,8 @@
         .progreso-text .linea1 { font-size: 16px; font-weight: 600; color: var(--petroleo); margin-bottom: 4px; }
         .progreso-text .linea2 { font-size: 13px; color: var(--texto-suave); }
 
-        /* ---------- SLIDER DE VALIDACIÓN (Swipe to Confirm) ---------- */
-        .zona-barista {
-            margin-top: auto;
-            padding-top: 16px;
-        }
+        /* ---------- SLIDER DE VALIDACIÓN ---------- */
+        .zona-barista { margin-top: auto; padding-top: 16px; }
 
         .slider-container {
             position: relative;
@@ -330,7 +327,6 @@
 </head>
 <body>
 
-    <!-- PANTALLA DE INGRESO -->
     <main class="pantalla" id="pantallaLogin">
         <div class="logo-container">
             <img src="logo.png" alt="Logo Toco Madera" class="logo-img">
@@ -352,14 +348,12 @@
             </div>
 
             <p class="aviso" id="avisoLogin" role="status" aria-live="polite"></p>
-
             <button type="submit" class="btn" id="btnIngresar">Ver mi tarjeta</button>
         </form>
 
         <button type="button" class="btn btn-ghost" id="btnInstalar" hidden>Instalar Aplicación</button>
     </main>
 
-    <!-- PANTALLA DE LA TARJETA -->
     <main class="pantalla pantalla-tarjeta" id="pantallaTarjeta" hidden>
         
         <div class="header-cliente">
@@ -377,7 +371,6 @@
         </section>
 
         <div class="zona-barista">
-            <!-- Botón Deslizante (Swipe to Confirm) -->
             <div class="slider-container" id="sliderContainer">
                 <div class="slider-fill" id="sliderFill"></div>
                 <div class="slider-text" id="sliderText">Desliza para sellar</div>
@@ -415,15 +408,16 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <script>
+        // PEGA AQUÍ TU URL GENERADA POR GOOGLE APPS SCRIPT
         const API_URL = "https://script.google.com/macros/s/AKfycbzN3QXKnaYLHyvl96b4A1ONO6sFT29F9eUfLIWfxqQY3hpo_pN4pLrYf1yQVJGKSIQ5/exec";
-        const CONFIG = { nombreEspacio: "TOCO MADERA", pinPersonal: "1234" };
+        const CONFIG = { nombreEspacio: "TOCO MADERA" }; // El PIN ya no está expuesto aquí
 
         // --- SEDES Y COORDENADAS PARA GPS ---
         const LOCALES = [
             { nombre: "Álamos", lat: 4.8039, lng: -75.6811 },
             { nombre: "Circunvalar", lat: 4.8115, lng: -75.6841 }
         ];
-        const RADIO_CERCA_METROS = 150; // Margen de 150 metros
+        const RADIO_CERCA_METROS = 150; 
 
         const totalSellos = 9;
         let telefonoActual = "";
@@ -476,11 +470,10 @@
 
                     for (let local of LOCALES) {
                         const distancia = calcularDistanciaMetros(usuarioLat, usuarioLng, local.lat, local.lng);
-                        
                         if (distancia <= RADIO_CERCA_METROS) {
                             setTimeout(() => {
                                 mostrarToast(`¡Qué bueno verte por Toco Madera ${local.nombre}!`);
-                            }, 1500); // Pequeño retraso para que el usuario alcance a ver la animación de la tarjeta
+                            }, 1500);
                             break;
                         }
                     }
@@ -492,7 +485,7 @@
             );
         }
 
-        // --- INICIAR SESIÓN ---
+        // --- INICIAR SESIÓN (Mantiene GET seguro para lectura) ---
         async function iniciarSesion(e) {
             e.preventDefault();
             const telInput = $('inputTelefono').value.trim();
@@ -531,12 +524,11 @@
                     void colgante.offsetWidth;
                     colgante.classList.add('entra');
 
-                    // Llamamos a la función GPS al abrir la tarjeta
                     verificarProximidadLocal();
                 } else {
                     nuevoUsuario = true;
                     $('campoNombre').hidden = false;
-                    avisoLogin(datos.mensaje || "Parece que eres nuevo. Escribe tu nombre para crear tu tarjeta.");
+                    avisoLogin(datos.mensaje);
                     $('inputNombre').focus();
                 }
             } catch (error) {
@@ -547,33 +539,44 @@
             }
         }
 
-        // --- LÓGICA DE SELLOS ---
+        // --- LÓGICA DE SELLOS SEGUROS (Envío por POST) ---
         function abrirPin() {
             $('pinInput').value = "";
             $('errorPin').textContent = "";
             $('dlgPin').showModal();$('pinInput').focus();
         }
 
-        function confirmarPin(e) {
+        async function confirmarPin(e) {
             e.preventDefault();
-            if ($('pinInput').value === CONFIG.pinPersonal) {$('dlgPin').close();
-                sumarSello();
-            } else {
-                $('errorPin').textContent = "PIN incorrecto. Inténtalo de nuevo.";
-                $('pinInput').select();
+            const pinVal = $('pinInput').value;
+            
+            if (!pinVal) {
+                $('errorPin').textContent = "Por favor, ingresa el PIN.";
+                return;
             }
-        }
 
-        async function sumarSello() {
+            $('errorPin').textContent = "";
             const btn = $('btnConfirmarSello');
             btn.disabled = true;
-            btn.textContent = "Validando...";
+            btn.textContent = "Validando en servidor...";
 
             try {
-                let respuesta = await fetch(`${API_URL}?telefono=${encodeURIComponent(telefonoActual)}&accion=sumar`);
+                // Modificación CRÍTICA: Petición POST para no exponer el PIN en la URL
+                let respuesta = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        telefono: telefonoActual,
+                        accion: 'sumar',
+                        pin: pinVal
+                    }),
+                    // Usamos text/plain para evitar errores de CORS con Google Apps Script
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+                
                 let datos = await respuesta.json();
 
                 if (datos.status === "success") {
+                    $('dlgPin').close(); // Cerramos el modal solo si el PIN es correcto
                     const sellos = Number(datos.sellos);
                     if (sellos === 0) {
                         renderizarTarjeta(totalSellos, totalSellos);
@@ -583,10 +586,13 @@
                         mostrarToast("¡Sello sumado exitosamente!");
                     }
                 } else {
-                    mostrarToast(datos.mensaje || "No se pudo sumar el sello.");
+                    // Si el PIN está mal o hay error, mantenemos el modal abierto y mostramos mensaje
+                    $('errorPin').textContent = datos.mensaje;
+                    $('pinInput').value = "";
+                    $('pinInput').focus();
                 }
             } catch (error) {
-                mostrarToast("Error de conexión al sumar el sello.");
+                $('errorPin').textContent = "Error de conexión al sumar el sello.";
             } finally {
                 btn.disabled = false;
                 btn.textContent = "Sellar";
