@@ -40,39 +40,41 @@
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            padding-bottom: env(safe-area-inset-bottom, 24px);
             -webkit-font-smoothing: antialiased;
         }
 
         [hidden] { display: none !important; }
         :focus-visible { outline: 2px solid var(--laton); outline-offset: 2px; border-radius: 12px; }
 
+        /* ---------- ESTRUCTURA MÓVIL DISTRIBUIDA ---------- */
         .pantalla {
             width: 100%;
             max-width: 400px;
             margin: 0 auto;
-            padding: 40px 24px 24px;
+            padding: 5vh 24px 32px; /* Espaciado dinámico basado en la altura */
             display: flex;
             flex-direction: column;
             flex: 1;
+            justify-content: space-between; /* Distribuye arriba, medio y abajo */
         }
 
-        /* --- Header & Integración del Logo --- */
-        .logo-container {
-            margin-bottom: 24px;
+        /* 1. SECCIÓN HEADER */
+        .header-section {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
+            margin-bottom: 24px;
         }
         
         .logo-img { 
-            height: 64px; 
+            height: 60px; 
             width: auto; 
             object-fit: contain; 
             margin-bottom: 16px;
             filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
-            background: transparent; 
+            /* Intento de borrar el fondo beige por CSS. Lo ideal es usar un PNG transparente. */
+            mix-blend-mode: screen; 
         }
 
         .brand-title { 
@@ -92,10 +94,31 @@
             margin-top: 4px;
         }
 
-        /* ---------- INGRESO ---------- */
+        .vip-badge {
+            margin-top: 16px;
+            background: rgba(166, 123, 81, 0.12);
+            border: 1px solid rgba(166, 123, 81, 0.3);
+            color: var(--laton-texto);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        /* 2. SECCIÓN FORMULARIO (Centro) */
+        .form-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centra el formulario verticalmente en el espacio disponible */
+            margin-bottom: 32px;
+        }
+
         .login-texto { color: var(--texto-suave); margin-bottom: 32px; font-size: 15px; text-align: center; }
         
-        .campo { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+        .campo { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
         .campo label { font-size: 13px; font-weight: 500; color: var(--petroleo); }
 
         input[type="tel"], input[type="text"], input[type="password"] {
@@ -113,8 +136,14 @@
         input::placeholder { color: #6b635d; }
         input:focus { outline: none; border-color: var(--laton); box-shadow: 0 0 0 4px var(--focus-ring); background: #2a2724; }
 
-        .aviso { font-size: 14px; color: var(--texto-suave); margin: -6px 0 20px; min-height: 20px; text-align: center; }
+        .aviso { font-size: 14px; color: var(--texto-suave); margin: 4px 0 0; min-height: 20px; text-align: center; }
         .aviso.error { color: var(--error); }
+
+        /* 3. SECCIÓN BOTONES (Abajo) */
+        .action-section {
+            margin-top: auto;
+            width: 100%;
+        }
 
         .btn {
             width: 100%;
@@ -149,10 +178,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .header-cliente { margin-bottom: 24px; text-align: center; }
-        .bienvenido { font-size: 13px; color: var(--texto-suave); margin-bottom: 4px; display: block; }
-        .nombre-cliente { font-family: var(--font-serif); font-size: 26px; line-height: 1.2; color: var(--petroleo); }
-
         .credencial {
             background: var(--lino);
             border: 1px solid #3d3835;
@@ -162,215 +187,115 @@
             margin-bottom: 24px;
         }
 
-        .grid-sellos {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            list-style: none;
-        }
+        .grid-sellos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; list-style: none; }
 
         .sello {
-            aspect-ratio: 1;
-            border-radius: 50%;
-            background: #2f2b28;
-            border: 1px solid #3d3835;
-            display: grid;
-            place-items: center;
-            font-family: var(--font-serif);
-            font-size: 18px;
-            color: #6b635d;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            aspect-ratio: 1; border-radius: 50%; background: #2f2b28; border: 1px solid #3d3835;
+            display: grid; place-items: center; font-family: var(--font-serif); font-size: 18px; color: #6b635d;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .sello.activo {
-            background: var(--laton);
-            color: var(--concreto);
-            border-color: var(--laton);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3), inset 0 0 0 3px var(--laton), inset 0 0 0 4px rgba(25, 23, 22, 0.2);
-        }
-
+        .sello.activo { background: var(--laton); color: var(--concreto); border-color: var(--laton); box-shadow: 0 4px 10px rgba(0,0,0,0.3), inset 0 0 0 3px var(--laton), inset 0 0 0 4px rgba(25, 23, 22, 0.2); }
         .sello.premio { border: 1.5px dashed var(--laton); }
         .sello.activo.premio { border-style: solid; }
-
         .sello svg { width: 50%; height: 50%; }
-
         .sello.nuevo { animation: popSello 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-        @keyframes popSello {
-            0% { transform: scale(0.6); opacity: 0; }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        
+        @keyframes popSello { 0% { transform: scale(0.6); opacity: 0; } 50% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
 
         .progreso-text { margin-top: 28px; text-align: center; }
         .progreso-text .linea1 { font-size: 16px; font-weight: 600; color: var(--petroleo); margin-bottom: 4px; }
         .progreso-text .linea2 { font-size: 13px; color: var(--texto-suave); }
 
         /* ---------- SLIDER DE VALIDACIÓN ---------- */
-        .zona-barista { margin-top: auto; padding-top: 16px; }
-
         .slider-container {
-            position: relative;
-            width: 100%;
-            height: 64px;
-            background: var(--lino);
-            border: 1px solid #3d3835;
-            border-radius: 20px;
-            overflow: hidden;
-            touch-action: none;
-            margin-bottom: 16px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+            position: relative; width: 100%; height: 64px; background: var(--lino); border: 1px solid #3d3835;
+            border-radius: 20px; overflow: hidden; touch-action: none; margin-bottom: 16px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
         }
-        .slider-text {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--texto-suave);
-            pointer-events: none;
-            z-index: 1;
-            transition: opacity 0.3s;
-        }
+        .slider-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; color: var(--texto-suave); pointer-events: none; z-index: 1; transition: opacity 0.3s; }
         .slider-thumb {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            width: 54px;
-            height: 54px;
-            background: var(--laton);
-            color: var(--concreto);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 3;
-            cursor: grab;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: absolute; top: 4px; left: 4px; width: 54px; height: 54px; background: var(--laton); color: var(--concreto);
+            border-radius: 16px; display: flex; align-items: center; justify-content: center; z-index: 3; cursor: grab;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .slider-thumb:active { cursor: grabbing; transform: scale(0.95); }
-        .slider-fill {
-            position: absolute;
-            top: 0; left: 0; bottom: 0;
-            width: 0;
-            background: rgba(166, 123, 81, 0.2);
-            z-index: 2;
-            transition: width 0.4s ease;
-        }
+        .slider-fill { position: absolute; top: 0; left: 0; bottom: 0; width: 0; background: rgba(166, 123, 81, 0.2); z-index: 2; transition: width 0.4s ease; }
         .slider-thumb svg { width: 22px; height: 22px; pointer-events: none; }
 
-        .btn-texto {
-            background: none;
-            border: none;
-            color: var(--texto-suave);
-            font-size: 14px;
-            cursor: pointer;
-            text-decoration: underline;
-            text-underline-offset: 4px;
-            width: 100%;
-            text-align: center;
-            padding: 8px;
-            transition: color 0.2s;
-        }
+        .btn-texto { background: none; border: none; color: var(--texto-suave); font-size: 14px; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; width: 100%; text-align: center; padding: 8px; transition: color 0.2s; }
         .btn-texto:hover { color: var(--petroleo); }
 
         /* ---------- DIÁLOGOS ---------- */
         dialog {
-            width: calc(100% - 48px);
-            max-width: 340px;
-            margin: auto;
-            padding: 32px 24px;
-            border: 1px solid #3d3835;
-            border-radius: 24px;
-            background: var(--lino);
-            color: var(--petroleo);
-            box-shadow: 0 24px 48px rgba(0,0,0,0.6);
+            width: calc(100% - 48px); max-width: 340px; margin: auto; padding: 32px 24px; border: 1px solid #3d3835;
+            border-radius: 24px; background: var(--lino); color: var(--petroleo); box-shadow: 0 24px 48px rgba(0,0,0,0.6);
         }
         dialog::backdrop { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(6px); }
         dialog h3 { font-family: var(--font-serif); font-size: 22px; color: var(--laton); margin-bottom: 8px; text-align: center; }
         dialog p { color: var(--texto-suave); font-size: 14px; margin-bottom: 24px; text-align: center; }
-        
-        #pinInput {
-            letter-spacing: 0.5em; 
-            text-align: center; 
-            font-size: 24px; 
-            margin-bottom: 12px;
-            background: var(--concreto);
-            border-radius: 16px;
-        }
-        
+        #pinInput { letter-spacing: 0.5em; text-align: center; font-size: 24px; margin-bottom: 12px; background: var(--concreto); border-radius: 16px; }
         .acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
         .toast {
-            position: fixed;
-            bottom: calc(24px + env(safe-area-inset-bottom, 0px));
-            left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            background: var(--petroleo);
-            color: var(--concreto);
-            padding: 14px 24px;
-            border-radius: 16px;
-            font-size: 15px;
-            font-weight: 600;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            z-index: 100;
-            text-align: center;
+            position: fixed; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%) translateY(20px);
+            background: var(--petroleo); color: var(--concreto); padding: 14px 24px; border-radius: 16px; font-size: 15px;
+            font-weight: 600; opacity: 0; pointer-events: none; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(0,0,0,0.3); z-index: 100; text-align: center;
         }
         .toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
 
+    <!-- PANTALLA DE INGRESO (Dividida en 3 bloques flex) -->
     <main class="pantalla" id="pantallaLogin">
-        <div class="logo-container">
+        
+        <div class="header-section">
             <img src="logo.png" alt="Logo Toco Madera" class="logo-img">
             <h1 class="brand-title">TOCO MADERA</h1>
             <span class="brand-subtitle">COFFEE LAB</span>
+            <div class="vip-badge">Tarjeta VIP</div>
         </div>
         
-        <p class="login-texto">Ingresa tu número y descubre cuántos sellos llevas acumulados.</p>
+        <div class="form-section">
+            <p class="login-texto">Ingresa tu número y descubre cuántos sellos llevas acumulados.</p>
+            <form id="formLogin" novalidate>
+                <div class="campo">
+                    <label for="inputTelefono">Número de Celular</label>
+                    <input type="tel" id="inputTelefono" placeholder="Ej. 300 123 4567" autocomplete="tel" inputmode="tel" required>
+                </div>
+                <div class="campo" id="campoNombre" hidden>
+                    <label for="inputNombre">Tu Nombre</label>
+                    <input type="text" id="inputNombre" placeholder="Nombre y Apellido" autocomplete="name">
+                </div>
+                <p class="aviso" id="avisoLogin" role="status" aria-live="polite"></p>
+            </form>
+        </div>
 
-        <form id="formLogin" novalidate>
-            <div class="campo">
-                <label for="inputTelefono">Número de Celular</label>
-                <input type="tel" id="inputTelefono" placeholder="Ej. 300 123 4567" autocomplete="tel" inputmode="tel" required>
-            </div>
+        <div class="action-section">
+            <button type="submit" form="formLogin" class="btn" id="btnIngresar">Ver mi tarjeta</button>
+            <button type="button" class="btn btn-ghost" id="btnInstalar" hidden>Instalar Aplicación</button>
+        </div>
 
-            <div class="campo" id="campoNombre" hidden>
-                <label for="inputNombre">Tu Nombre</label>
-                <input type="text" id="inputNombre" placeholder="Nombre y Apellido" autocomplete="name">
-            </div>
-
-            <p class="aviso" id="avisoLogin" role="status" aria-live="polite"></p>
-            <button type="submit" class="btn" id="btnIngresar">Ver mi tarjeta</button>
-        </form>
-
-        <button type="button" class="btn btn-ghost" id="btnInstalar" hidden>Instalar Aplicación</button>
     </main>
 
+    <!-- PANTALLA DE LA TARJETA -->
     <main class="pantalla pantalla-tarjeta" id="pantallaTarjeta" hidden>
         
-        <div class="header-cliente">
-            <span class="bienvenido">Bienvenido de vuelta,</span>
-            <h1 class="nombre-cliente" id="nombreCliente">Cargando...</h1>
+        <div class="header-section" style="margin-bottom: 8px;">
+            <span class="brand-subtitle" style="color: var(--texto-suave);">Bienvenido de vuelta,</span>
+            <h1 class="brand-title" id="nombreCliente" style="font-size: 26px;">Cargando...</h1>
         </div>
 
-        <section class="credencial" aria-label="Tu tarjeta de sellos">
-            <ul class="grid-sellos" id="contenedorSellos" aria-label="Sellos de tu tarjeta"></ul>
+        <div class="form-section">
+            <section class="credencial" aria-label="Tu tarjeta de sellos">
+                <ul class="grid-sellos" id="contenedorSellos" aria-label="Sellos de tu tarjeta"></ul>
+                <div class="progreso-text" aria-live="polite">
+                    <p class="linea1">Llevas <span id="contadorTexto">0</span> de 9 sellos</p>
+                    <p class="linea2" id="mensajeFalta"></p>
+                </div>
+            </section>
+        </div>
 
-            <div class="progreso-text" aria-live="polite">
-                <p class="linea1">Llevas <span id="contadorTexto">0</span> de 9 sellos</p>
-                <p class="linea2" id="mensajeFalta"></p>
-            </div>
-        </section>
-
-        <div class="zona-barista">
+        <div class="action-section">
             <div class="slider-container" id="sliderContainer">
                 <div class="slider-fill" id="sliderFill"></div>
                 <div class="slider-text" id="sliderText">Desliza para sellar</div>
@@ -380,11 +305,11 @@
                     </svg>
                 </div>
             </div>
-            
             <button type="button" class="btn-texto" onclick="cerrarSesion()">Cerrar sesión</button>
         </div>
     </main>
 
+    <!-- DIÁLOGOS Y TOAST -->
     <dialog id="dlgPin" aria-labelledby="tituloPin">
         <form id="formPin" novalidate>
             <h3 id="tituloPin">Barista</h3>
@@ -408,11 +333,9 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <script>
-        // PEGA AQUÍ TU URL GENERADA POR GOOGLE APPS SCRIPT
+        // URL DE TU GOOGLE APPS SCRIPT
         const API_URL = "https://script.google.com/macros/s/AKfycbzN3QXKnaYLHyvl96b4A1ONO6sFT29F9eUfLIWfxqQY3hpo_pN4pLrYf1yQVJGKSIQ5/exec";
-        const CONFIG = { nombreEspacio: "TOCO MADERA" }; // El PIN ya no está expuesto aquí
-
-        // --- SEDES Y COORDENADAS PARA GPS ---
+        
         const LOCALES = [
             { nombre: "Álamos", lat: 4.8039, lng: -75.6811 },
             { nombre: "Circunvalar", lat: 4.8115, lng: -75.6841 }
@@ -426,8 +349,6 @@
 
         const $ = (id) => document.getElementById(id);
         const ICONO_SELLO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-
-        document.title = "Fidelización - " + CONFIG.nombreEspacio;
 
         let temporizadorToast;
         function mostrarToast(mensaje) {
@@ -448,44 +369,26 @@
             return nuevoUsuario ? "Crear mi tarjeta" : "Ver mi tarjeta";
         }
 
-        // --- LÓGICA DE GPS ---
         function calcularDistanciaMetros(lat1, lon1, lat2, lon2) {
             const R = 6371e3; 
             const dLat = (lat2 - lat1) * Math.PI / 180;
             const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                      Math.sin(dLon/2) * Math.sin(dLon/2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return R * c;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         }
 
         function verificarProximidadLocal() {
             if (!navigator.geolocation) return;
-
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const usuarioLat = position.coords.latitude;
-                    const usuarioLng = position.coords.longitude;
-
-                    for (let local of LOCALES) {
-                        const distancia = calcularDistanciaMetros(usuarioLat, usuarioLng, local.lat, local.lng);
-                        if (distancia <= RADIO_CERCA_METROS) {
-                            setTimeout(() => {
-                                mostrarToast(`¡Qué bueno verte por Toco Madera ${local.nombre}!`);
-                            }, 1500);
-                            break;
-                        }
+            navigator.geolocation.getCurrentPosition((position) => {
+                for (let local of LOCALES) {
+                    if (calcularDistanciaMetros(position.coords.latitude, position.coords.longitude, local.lat, local.lng) <= RADIO_CERCA_METROS) {
+                        setTimeout(() => mostrarToast(`¡Qué bueno verte por Toco Madera ${local.nombre}!`), 1500);
+                        break;
                     }
-                },
-                (error) => {
-                    console.log("Geolocalización denegada o no disponible.");
-                },
-                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-            );
+                }
+            }, () => {}, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
         }
 
-        // --- INICIAR SESIÓN (Mantiene GET seguro para lectura) ---
         async function iniciarSesion(e) {
             e.preventDefault();
             const telInput = $('inputTelefono').value.trim();
@@ -493,20 +396,13 @@
             const btn = $('btnIngresar');
 
             avisoLogin('');
+            if (telInput.length < 7) { avisoLogin("Escribe tu número de celular completo.", true); $('inputTelefono').focus(); return; }
 
-            if (telInput.length < 7) {
-                avisoLogin("Escribe tu número de celular completo.", true);
-                $('inputTelefono').focus();
-                return;
-            }
-
-            btn.disabled = true;
-            btn.textContent = "Verificando...";
+            btn.disabled = true; btn.textContent = "Verificando...";
 
             try {
                 let url = `${API_URL}?telefono=${encodeURIComponent(telInput)}&accion=login`;
                 if (nomInput) url += `&nombre=${encodeURIComponent(nomInput)}`;
-
                 let respuesta = await fetch(url);
                 let datos = await respuesta.json();
 
@@ -514,16 +410,10 @@
                     telefonoActual = telInput;
                     $('nombreCliente').textContent = datos.nombre;
                     renderizarTarjeta(datos.sellos);
-
                     $('pantallaLogin').hidden = true;
                     $('pantallaTarjeta').hidden = false;
                     window.scrollTo(0, 0);
-
-                    const colgante = $('pantallaTarjeta');
-                    colgante.classList.remove('entra');
-                    void colgante.offsetWidth;
-                    colgante.classList.add('entra');
-
+                    const colgante = $('pantallaTarjeta'); colgante.classList.remove('entra'); void colgante.offsetWidth; colgante.classList.add('entra');
                     verificarProximidadLocal();
                 } else {
                     nuevoUsuario = true;
@@ -534,49 +424,34 @@
             } catch (error) {
                 avisoLogin("No pudimos conectarnos. Revisa tu internet e inténtalo de nuevo.", true);
             } finally {
-                btn.disabled = false;
-                btn.textContent = etiquetaIngreso();
+                btn.disabled = false; btn.textContent = etiquetaIngreso();
             }
         }
 
-        // --- LÓGICA DE SELLOS SEGUROS (Envío por POST) ---
         function abrirPin() {
-            $('pinInput').value = "";
-            $('errorPin').textContent = "";
+            $('pinInput').value = ""; $('errorPin').textContent = "";
             $('dlgPin').showModal();$('pinInput').focus();
         }
 
         async function confirmarPin(e) {
             e.preventDefault();
             const pinVal = $('pinInput').value;
-            
-            if (!pinVal) {
-                $('errorPin').textContent = "Por favor, ingresa el PIN.";
-                return;
-            }
+            if (!pinVal) { $('errorPin').textContent = "Por favor, ingresa el PIN."; return; }
 
             $('errorPin').textContent = "";
             const btn = $('btnConfirmarSello');
-            btn.disabled = true;
-            btn.textContent = "Validando en servidor...";
+            btn.disabled = true; btn.textContent = "Validando...";
 
             try {
-                // Modificación CRÍTICA: Petición POST para no exponer el PIN en la URL
                 let respuesta = await fetch(API_URL, {
                     method: 'POST',
-                    body: JSON.stringify({
-                        telefono: telefonoActual,
-                        accion: 'sumar',
-                        pin: pinVal
-                    }),
-                    // Usamos text/plain para evitar errores de CORS con Google Apps Script
+                    body: JSON.stringify({ telefono: telefonoActual, accion: 'sumar', pin: pinVal }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                 });
-                
                 let datos = await respuesta.json();
 
                 if (datos.status === "success") {
-                    $('dlgPin').close(); // Cerramos el modal solo si el PIN es correcto
+                    $('dlgPin').close();
                     const sellos = Number(datos.sellos);
                     if (sellos === 0) {
                         renderizarTarjeta(totalSellos, totalSellos);
@@ -586,39 +461,31 @@
                         mostrarToast("¡Sello sumado exitosamente!");
                     }
                 } else {
-                    // Si el PIN está mal o hay error, mantenemos el modal abierto y mostramos mensaje
                     $('errorPin').textContent = datos.mensaje;
-                    $('pinInput').value = "";
-                    $('pinInput').focus();
+                    $('pinInput').value = ""; $('pinInput').focus();
                 }
             } catch (error) {
                 $('errorPin').textContent = "Error de conexión al sumar el sello.";
             } finally {
-                btn.disabled = false;
-                btn.textContent = "Sellar";
+                btn.disabled = false; btn.textContent = "Sellar";
             }
         }
 
         function renderizarTarjeta(sellosAcumulados, indiceNuevo = null) {
             const acumulados = Number(sellosAcumulados) || 0;
             sellosActuales = acumulados;
-
             const contenedor = $('contenedorSellos');
             contenedor.replaceChildren();
 
             for (let i = 1; i <= totalSellos; i++) {
                 const lleno = i <= acumulados;
                 const li = document.createElement('li');
-                li.className = 'sello'
-                    + (lleno ? ' activo' : '')
-                    + (i === totalSellos ? ' premio' : '')
-                    + (i === indiceNuevo ? ' nuevo' : '');
+                li.className = 'sello' + (lleno ? ' activo' : '') + (i === totalSellos ? ' premio' : '') + (i === indiceNuevo ? ' nuevo' : '');
                 li.innerHTML = lleno ? ICONO_SELLO : `<span aria-hidden="true">${i}</span>`;
                 contenedor.appendChild(li);
             }
 
             $('contadorTexto').textContent = acumulados;
-
             const faltan = totalSellos - acumulados;
             let mensaje;
             if (acumulados === 0) mensaje = "Tu próxima compra suma el primer sello.";
@@ -629,106 +496,41 @@
         }
 
         function cerrarSesion() {
-            telefonoActual = "";
-            nuevoUsuario = false;
-            $('inputTelefono').value = '';
-            $('inputNombre').value = '';$('campoNombre').hidden = true;
-            avisoLogin('');
-            $('btnIngresar').textContent = etiquetaIngreso();$('pantallaTarjeta').hidden = true;
-            $('pantallaLogin').hidden = false;
+            telefonoActual = ""; nuevoUsuario = false;
+            $('inputTelefono').value = ''; $('inputNombre').value = '';$('campoNombre').hidden = true;
+            avisoLogin(''); $('btnIngresar').textContent = etiquetaIngreso();
+            $('pantallaTarjeta').hidden = true; $('pantallaLogin').hidden = false;
             window.scrollTo(0, 0);
         }
 
         $('formLogin').addEventListener('submit', iniciarSesion);
         $('formPin').addEventListener('submit', confirmarPin);$('pinCancelar').addEventListener('click', () => $('dlgPin').close());$('premioListo').addEventListener('click', () => $('dlgPremio').close());$('dlgPremio').addEventListener('close', () => renderizarTarjeta(0));
 
-        // --- LÓGICA DEL BOTÓN DESLIZANTE ---
-        const sliderThumb = $('sliderThumb');
-        const sliderContainer = $('sliderContainer');
-        const sliderText = $('sliderText');
-        const sliderFill = $('sliderFill');
-        let isDragging = false;
-        let startX = 0;
-        let currentX = 0;
-        
+        // Slider
+        const sliderThumb = $('sliderThumb'), sliderContainer =$('sliderContainer'), sliderText = $('sliderText'), sliderFill =$('sliderFill');
+        let isDragging = false, startX = 0, currentX = 0;
         const getMaxDrag = () => sliderContainer.offsetWidth - sliderThumb.offsetWidth - 8;
-        let maxDrag = getMaxDrag();
-        window.addEventListener('resize', () => { maxDrag = getMaxDrag(); });
+        let maxDrag = getMaxDrag(); window.addEventListener('resize', () => maxDrag = getMaxDrag());
 
-        const startDrag = (e) => {
-            isDragging = true;
-            startX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
-            sliderThumb.style.transition = 'none';
-            sliderFill.style.transition = 'none';
-        };
-
+        const startDrag = (e) => { isDragging = true; startX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX; sliderThumb.style.transition = 'none'; sliderFill.style.transition = 'none'; };
         const onDrag = (e) => {
             if (!isDragging) return;
-            const x = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
-            currentX = Math.min(Math.max(0, x - startX), maxDrag);
-            
-            sliderThumb.style.transform = `translateX(${currentX}px)`;
-            sliderFill.style.width = `${currentX + 30}px`;
+            currentX = Math.min(Math.max(0, (e.type.includes('mouse') ? e.pageX : e.touches[0].pageX) - startX), maxDrag);
+            sliderThumb.style.transform = `translateX(${currentX}px)`; sliderFill.style.width = `${currentX + 30}px`;
             sliderText.style.opacity = 1 - (currentX / (maxDrag * 0.7));
-
-            if (currentX >= maxDrag) {
-                isDragging = false;
-                resetSlider();
-                abrirPin();
-            }
+            if (currentX >= maxDrag) { isDragging = false; resetSlider(); abrirPin(); }
         };
+        const stopDrag = () => { if (isDragging) { isDragging = false; resetSlider(); } };
+        const resetSlider = () => { sliderThumb.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'; sliderFill.style.transition = 'width 0.4s ease'; sliderThumb.style.transform = `translateX(0px)`; sliderFill.style.width = `0px`; sliderText.style.opacity = '1'; };
 
-        const stopDrag = () => {
-            if (!isDragging) return;
-            isDragging = false;
-            resetSlider();
-        };
+        sliderThumb.addEventListener('mousedown', startDrag); sliderThumb.addEventListener('touchstart', startDrag, {passive: true});
+        document.addEventListener('mousemove', onDrag); document.addEventListener('touchmove', onDrag, {passive: false});
+        document.addEventListener('mouseup', stopDrag); document.addEventListener('touchend', stopDrag);
 
-        const resetSlider = () => {
-            sliderThumb.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
-            sliderFill.style.transition = 'width 0.4s ease';
-            sliderThumb.style.transform = `translateX(0px)`;
-            sliderFill.style.width = `0px`;
-            sliderText.style.opacity = '1';
-        };
-
-        sliderThumb.addEventListener('mousedown', startDrag);
-        sliderThumb.addEventListener('touchstart', startDrag, {passive: true});
-        document.addEventListener('mousemove', onDrag);
-        document.addEventListener('touchmove', onDrag, {passive: false});
-        document.addEventListener('mouseup', stopDrag);
-        document.addEventListener('touchend', stopDrag);
-
-        // --- INSTALACIÓN PWA ---
         let eventoInstalacion;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            eventoInstalacion = e;
-            $('btnInstalar').hidden = false;
-        });
-
-        $('btnInstalar').addEventListener('click', async () => {
-            if (eventoInstalacion) {
-                eventoInstalacion.prompt();
-                const { outcome } = await eventoInstalacion.userChoice;
-                if (outcome === 'accepted') {
-                    $('btnInstalar').hidden = true;
-                }
-                eventoInstalacion = null;
-            }
-        });
-
-        if ('serviceWorker' in navigator) {
-            let recargado = false;
-            navigator.serviceWorker.addEventListener('controllerchange', () => {
-                if (recargado) return;
-                recargado = true;
-                window.location.reload();
-            });
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' });
-            });
-        }
+        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); eventoInstalacion = e; $('btnInstalar').hidden = false; });
+        $('btnInstalar').addEventListener('click', async () => { if (eventoInstalacion) { eventoInstalacion.prompt(); if ((await eventoInstalacion.userChoice).outcome === 'accepted')$('btnInstalar').hidden = true; eventoInstalacion = null; } });
+        if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })); }
     </script>
 </body>
 </html>
