@@ -6,7 +6,7 @@
     <title>Toco Madera - Coffee Lab</title>
 
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#191716">
+    <meta name="theme-color" content="#2c3a32"> <!-- Verde oscuro para el navegador -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,14 +14,18 @@
 
     <style>
         :root {
-            --petroleo: #e8dcc8; 
-            --laton: #a67b51; 
-            --laton-texto: #c9a47e; 
-            --concreto: #191716; 
-            --lino: #24211f; 
-            --texto-suave: #9a9289;
+            /* NUEVA PALETA INSPIRADA EN EL LOGO VERDE */
+            --fondo-principal: #232e27; /* Verde muy oscuro casi negro */
+            --fondo-tarjeta: #2c3a32;   /* Verde oscuro del logo */
+            --input-fondo: #1d251f;     /* Verde profundo para inputs */
+            
+            --crema-texto: #e3d8c1;     /* Color crema de las letras del logo */
+            --dorado: #c4ab82;          /* Tono dorado/latón apagado */
+            --dorado-hover: #e0cca9;    
+            
+            --texto-suave: #a8b3ac;     /* Gris verdoso para textos secundarios */
             --error: #e57373;
-            --focus-ring: rgba(166, 123, 81, 0.4);
+            --focus-ring: rgba(196, 171, 130, 0.4);
             
             --font-sans: 'Instrument Sans', system-ui, -apple-system, sans-serif;
             --font-serif: 'Playfair Display', serif;
@@ -31,8 +35,8 @@
         html { -webkit-text-size-adjust: 100%; }
 
         body {
-            background: var(--concreto);
-            color: var(--petroleo);
+            background: var(--fondo-principal);
+            color: var(--crema-texto);
             font-family: var(--font-sans);
             font-size: 16px;
             line-height: 1.5;
@@ -41,14 +45,13 @@
             flex-direction: column;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            /* Patrón de fondo muy sutil para darle textura premium */
-            background-image: radial-gradient(circle at 50% 0%, rgba(166, 123, 81, 0.05) 0%, transparent 70%);
+            background-image: radial-gradient(circle at 50% 0%, rgba(227, 216, 193, 0.03) 0%, transparent 70%);
         }
 
         [hidden] { display: none !important; }
-        :focus-visible { outline: 2px solid var(--laton); outline-offset: 2px; border-radius: 12px; }
+        :focus-visible { outline: 2px solid var(--dorado); outline-offset: 2px; border-radius: 12px; }
 
-        /* ---------- NUEVA ESTRUCTURA CENTRADA ---------- */
+        /* ---------- ESTRUCTURA CENTRADA ---------- */
         .pantalla {
             width: 100%;
             max-width: 440px;
@@ -57,21 +60,24 @@
             display: flex;
             flex-direction: column;
             flex: 1;
-            justify-content: center; /* Centra el contenido principal verticalmente */
+            justify-content: center;
             position: relative;
         }
 
-        /* 1. TARJETA PRINCIPAL (Contenedor Agrupado) */
+        /* 1. TARJETA PRINCIPAL */
         .main-card {
-            background: var(--lino);
-            border: 1px solid #3d3835;
+            background: var(--fondo-tarjeta);
+            border: 1px solid rgba(227, 216, 193, 0.1);
             border-radius: 28px;
-            padding: 40px 24px;
-            box-shadow: 0 24px 48px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.03);
+            padding: 48px 24px 40px; /* Un poco más de padding superior para equilibrar */
+            box-shadow: 0 24px 48px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05);
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
+            margin-bottom: 32px; /* Espacio para separar el instagram */
+            position: relative;
+            z-index: 2;
         }
 
         /* HEADER DENTRO DE LA TARJETA */
@@ -85,12 +91,14 @@
         }
         
         .logo-img { 
-            height: 56px; 
-            width: auto; 
+            height: 96px; /* Más grande para que sea legible */
+            width: 96px; 
             object-fit: contain; 
-            margin-bottom: 12px;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
-            mix-blend-mode: screen; /* Mantenemos el blend mode para disimular el fondo */
+            margin-bottom: 20px;
+            border-radius: 16px; /* Suavizamos los bordes del cuadrado */
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            background: var(--fondo-tarjeta);
+            /* mix-blend-mode ELIMINADO para mantener el color verde intacto */
         }
 
         .brand-title { 
@@ -98,35 +106,33 @@
             font-size: 28px; 
             font-weight: 600; 
             line-height: 1.1; 
-            color: var(--petroleo);
+            color: var(--crema-texto);
             letter-spacing: 0.02em;
         }
         .brand-subtitle { 
             font-size: 12px; 
             text-transform: uppercase; 
             letter-spacing: 0.2em; 
-            color: var(--laton); 
+            color: var(--dorado); 
             font-weight: 500; 
             margin-top: 4px;
         }
 
         .vip-badge {
             margin-top: 16px;
-            background: rgba(166, 123, 81, 0.12);
-            border: 1px solid rgba(166, 123, 81, 0.25);
-            color: var(--laton-texto);
-            padding: 4px 12px;
+            background: rgba(196, 171, 130, 0.12);
+            border: 1px solid rgba(196, 171, 130, 0.3);
+            color: var(--dorado);
+            padding: 6px 16px;
             border-radius: 100px;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
             letter-spacing: 0.15em;
             text-transform: uppercase;
         }
 
         /* 2. FORMULARIO DENTRO DE LA TARJETA */
-        #formLogin {
-            width: 100%;
-        }
+        #formLogin { width: 100%; }
 
         .login-texto { 
             color: var(--texto-suave); 
@@ -137,22 +143,22 @@
         }
         
         .campo { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-        .campo label { font-size: 13px; font-weight: 500; color: var(--petroleo); margin-left: 4px; }
+        .campo label { font-size: 13px; font-weight: 500; color: var(--crema-texto); margin-left: 4px; }
 
         input[type="tel"], input[type="text"], input[type="password"] {
             width: 100%;
             height: 56px;
             padding: 0 20px;
-            border: 1px solid #3d3835;
+            border: 1px solid rgba(227, 216, 193, 0.15);
             border-radius: 16px;
-            background: rgba(25, 23, 22, 0.5); /* Más oscuro para contrastar con la tarjeta */
-            color: var(--petroleo);
+            background: var(--input-fondo);
+            color: var(--crema-texto);
             font-family: inherit;
             font-size: 16px;
             transition: all 0.2s ease;
         }
-        input::placeholder { color: #6b635d; }
-        input:focus { outline: none; border-color: var(--laton); box-shadow: 0 0 0 4px var(--focus-ring); background: #2a2724; }
+        input::placeholder { color: #6e7a73; }
+        input:focus { outline: none; border-color: var(--dorado); box-shadow: 0 0 0 4px var(--focus-ring); background: rgba(0,0,0,0.2); }
 
         .aviso { font-size: 13px; color: var(--texto-suave); margin: -4px 0 20px; min-height: 20px; text-align: center; }
         .aviso.error { color: var(--error); }
@@ -162,8 +168,8 @@
             height: 56px;
             border: none;
             border-radius: 16px;
-            background: var(--petroleo);
-            color: var(--concreto);
+            background: var(--crema-texto);
+            color: var(--fondo-principal);
             font-family: inherit;
             font-size: 16px;
             font-weight: 600;
@@ -172,23 +178,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             margin-top: 8px;
         }
-        .btn:hover { background: #d1c4b1; }
+        .btn:hover { background: #ffffff; }
         .btn:active { transform: scale(0.98); }
-        .btn:disabled { background: #3d3835; color: #7a7069; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn:disabled { background: var(--input-fondo); color: #5a6660; cursor: not-allowed; transform: none; box-shadow: none; border: 1px solid rgba(227, 216, 193, 0.1); }
         
-        .btn-ghost { background: transparent; color: var(--petroleo); border: 1px solid #3d3835; margin-top: 16px; box-shadow: none; }
-        .btn-ghost:hover { background: rgba(232, 220, 200, 0.05); border-color: var(--petroleo); }
+        .btn-ghost { background: transparent; color: var(--crema-texto); border: 1px solid rgba(227, 216, 193, 0.2); margin-top: 16px; box-shadow: none; }
+        .btn-ghost:hover { background: rgba(227, 216, 193, 0.05); border-color: var(--crema-texto); }
 
-        /* FOOTER SOCIAL (Instagram) */
+        /* FOOTER SOCIAL (Instagram) - Subido y con posición relativa */
         .footer-social {
-            position: absolute;
-            bottom: max(24px, env(safe-area-inset-bottom));
-            left: 0;
+            position: relative;
             width: 100%;
             text-align: center;
+            margin-top: 8px;
+            margin-bottom: max(16px, env(safe-area-inset-bottom));
+            z-index: 1;
         }
         
         .social-link {
@@ -197,28 +204,28 @@
             gap: 8px;
             color: var(--texto-suave);
             text-decoration: none;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 500;
-            transition: color 0.2s ease;
+            transition: color 0.2s ease, transform 0.2s ease;
             padding: 8px 16px;
             border-radius: 100px;
         }
         
         .social-link:hover {
-            color: var(--petroleo);
-            background: rgba(255,255,255,0.03);
+            color: var(--dorado);
+            transform: translateY(-2px);
         }
         
         .social-link svg {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
         }
 
-        /* ---------- TARJETA DIGITAL (Mantiene su propio diseño de credencial) ---------- */
+        /* ---------- TARJETA DIGITAL ---------- */
         .pantalla-tarjeta { 
             opacity: 0; 
-            justify-content: flex-start; /* En la vista de sellos, permitimos que fluya desde arriba */
-            padding-top: 5vh;
+            justify-content: flex-start;
+            padding-top: 6vh;
         }
         .pantalla-tarjeta.entra { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         
@@ -228,11 +235,11 @@
         }
 
         .credencial {
-            background: var(--lino);
-            border: 1px solid #3d3835;
-            border-radius: 28px; /* Coincide con main-card */
+            background: var(--fondo-tarjeta);
+            border: 1px solid rgba(227, 216, 193, 0.1);
+            border-radius: 28px;
             padding: 32px 20px;
-            box-shadow: 0 24px 48px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.03);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05);
             margin-bottom: 32px;
             width: 100%;
         }
@@ -240,20 +247,25 @@
         .grid-sellos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; list-style: none; }
 
         .sello {
-            aspect-ratio: 1; border-radius: 50%; background: rgba(25, 23, 22, 0.5); border: 1px solid #3d3835;
-            display: grid; place-items: center; font-family: var(--font-serif); font-size: 18px; color: #6b635d;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            aspect-ratio: 1; border-radius: 50%; background: var(--input-fondo); border: 1px solid rgba(227, 216, 193, 0.15);
+            display: grid; place-items: center; font-family: var(--font-serif); font-size: 18px; color: #6e7a73;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.4); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .sello.activo { background: var(--laton); color: var(--concreto); border-color: var(--laton); box-shadow: 0 4px 10px rgba(0,0,0,0.3), inset 0 0 0 3px var(--laton), inset 0 0 0 4px rgba(25, 23, 22, 0.2); }
-        .sello.premio { border: 1.5px dashed var(--laton); }
-        .sello.activo.premio { border-style: solid; }
+        .sello.activo { 
+            background: var(--crema-texto); 
+            color: var(--fondo-principal); 
+            border-color: var(--crema-texto); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3), inset 0 0 0 4px rgba(0, 0, 0, 0.1); 
+        }
+        .sello.premio { border: 1.5px dashed var(--dorado); }
+        .sello.activo.premio { border-style: solid; background: var(--dorado); border-color: var(--dorado); }
         .sello svg { width: 50%; height: 50%; }
         .sello.nuevo { animation: popSello 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
         
         @keyframes popSello { 0% { transform: scale(0.6); opacity: 0; } 50% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
 
         .progreso-text { margin-top: 28px; text-align: center; }
-        .progreso-text .linea1 { font-size: 16px; font-weight: 600; color: var(--petroleo); margin-bottom: 4px; }
+        .progreso-text .linea1 { font-size: 16px; font-weight: 600; color: var(--crema-texto); margin-bottom: 4px; }
         .progreso-text .linea2 { font-size: 13px; color: var(--texto-suave); }
 
         /* ---------- SLIDER DE VALIDACIÓN ---------- */
@@ -264,48 +276,49 @@
         }
 
         .slider-container {
-            position: relative; width: 100%; height: 64px; background: var(--lino); border: 1px solid #3d3835;
+            position: relative; width: 100%; height: 64px; background: var(--fondo-tarjeta); border: 1px solid rgba(227, 216, 193, 0.15);
             border-radius: 20px; overflow: hidden; touch-action: none; margin-bottom: 24px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
         }
         .slider-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; color: var(--texto-suave); pointer-events: none; z-index: 1; transition: opacity 0.3s; }
         .slider-thumb {
-            position: absolute; top: 4px; left: 4px; width: 54px; height: 54px; background: var(--laton); color: var(--concreto);
+            position: absolute; top: 4px; left: 4px; width: 54px; height: 54px; background: var(--dorado); color: var(--fondo-principal);
             border-radius: 16px; display: flex; align-items: center; justify-content: center; z-index: 3; cursor: grab;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .slider-thumb:active { cursor: grabbing; transform: scale(0.95); }
-        .slider-fill { position: absolute; top: 0; left: 0; bottom: 0; width: 0; background: rgba(166, 123, 81, 0.2); z-index: 2; transition: width 0.4s ease; }
+        .slider-fill { position: absolute; top: 0; left: 0; bottom: 0; width: 0; background: rgba(196, 171, 130, 0.2); z-index: 2; transition: width 0.4s ease; }
         .slider-thumb svg { width: 22px; height: 22px; pointer-events: none; }
 
         .btn-texto { background: none; border: none; color: var(--texto-suave); font-size: 14px; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; width: 100%; text-align: center; padding: 8px; transition: color 0.2s; }
-        .btn-texto:hover { color: var(--petroleo); }
+        .btn-texto:hover { color: var(--crema-texto); }
 
         /* ---------- DIÁLOGOS ---------- */
         dialog {
-            width: calc(100% - 48px); max-width: 340px; margin: auto; padding: 32px 24px; border: 1px solid #3d3835;
-            border-radius: 28px; background: var(--lino); color: var(--petroleo); box-shadow: 0 24px 48px rgba(0,0,0,0.6);
+            width: calc(100% - 48px); max-width: 340px; margin: auto; padding: 32px 24px; border: 1px solid rgba(227, 216, 193, 0.15);
+            border-radius: 28px; background: var(--fondo-tarjeta); color: var(--crema-texto); box-shadow: 0 32px 64px rgba(0,0,0,0.7);
         }
-        dialog::backdrop { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(6px); }
-        dialog h3 { font-family: var(--font-serif); font-size: 22px; color: var(--laton); margin-bottom: 8px; text-align: center; }
+        dialog::backdrop { background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); }
+        dialog h3 { font-family: var(--font-serif); font-size: 22px; color: var(--dorado); margin-bottom: 8px; text-align: center; }
         dialog p { color: var(--texto-suave); font-size: 14px; margin-bottom: 24px; text-align: center; }
-        #pinInput { letter-spacing: 0.5em; text-align: center; font-size: 24px; margin-bottom: 12px; background: var(--concreto); border-radius: 16px; }
+        #pinInput { letter-spacing: 0.5em; text-align: center; font-size: 24px; margin-bottom: 12px; background: var(--input-fondo); border-radius: 16px; border: 1px solid rgba(227, 216, 193, 0.1); color: var(--crema-texto); }
         .acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
         .toast {
             position: fixed; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%) translateY(20px);
-            background: var(--petroleo); color: var(--concreto); padding: 14px 24px; border-radius: 16px; font-size: 15px;
-            font-weight: 600; opacity: 0; pointer-events: none; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(0,0,0,0.3); z-index: 100; text-align: center;
+            background: var(--crema-texto); color: var(--fondo-principal); padding: 14px 24px; border-radius: 16px; font-size: 15px;
+            font-weight: 600; opacity: 0; pointer-events: none; transition: all 0.3s ease; box-shadow: 0 10px 24px rgba(0,0,0,0.4); z-index: 100; text-align: center;
         }
         .toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
 
-    <!-- PANTALLA DE INGRESO (Nueva Distribución Centrada) -->
+    <!-- PANTALLA DE INGRESO -->
     <main class="pantalla" id="pantallaLogin">
         
         <div class="main-card">
             <div class="header-section">
+                <!-- Se asume que el nuevo logo cuadrado se llama logo.png en tu repositorio -->
                 <img src="logo.png" alt="Logo Toco Madera" class="logo-img">
                 <h1 class="brand-title">TOCO MADERA</h1>
                 <span class="brand-subtitle">COFFEE LAB</span>
@@ -332,7 +345,7 @@
             </form>
         </div>
 
-        <!-- Enlace a Instagram -->
+        <!-- Enlace a Instagram (Posicionado más arriba y mejor integrado) -->
         <div class="footer-social">
             <a href="https://www.instagram.com/tocomaderacoffee/?hl=es" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Síguenos en Instagram">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
